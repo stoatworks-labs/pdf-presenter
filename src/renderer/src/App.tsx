@@ -7,6 +7,7 @@ import Thumbnail from './components/Thumbnail'
 import OutputControl from './components/OutputControl'
 import Transport from './components/Transport'
 import OscControl from './components/OscControl'
+import DiagnosticsPanel from './components/DiagnosticsPanel'
 import AutoAdvanceControl from './components/AutoAdvanceControl'
 import { handleOscAction, allFeedback } from './osc/protocol'
 import type { OscSnapshot, OscSection } from './osc/protocol'
@@ -269,6 +270,7 @@ function App(): React.JSX.Element {
               })
             }}
           />
+          <DiagnosticsPanel />
           <button className="transport-btn" onClick={openPdf}>
             {fileName ? 'Open Different PDF…' : 'Open PDF…'}
           </button>
