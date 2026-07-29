@@ -7,6 +7,26 @@ import { oscControlServer } from './services/oscControlServer'
 import type { OscArg, OscConfig } from '../shared/osc'
 import { fileControl } from './services/fileControl'
 import { setWallpaper } from './services/wallpaper'
+import { collectDiagnostics, init as initDiag, say } from './diag/index.js'
+import { installElectronDiagnostics } from './diag/electron.js'
+
+// Before anything that can fail, so a failure during startup is logged and
+// captured like any other. An Electron app is several processes, so the
+// renderer and GPU hooks go in too - neither raises anything the main
+// process's uncaughtException handler can see.
+initDiag({
+  app: 'pdf-presenter-lite',
+  envPrefix: 'PDF_PRESENTER',
+  version: '1.2.0',
+  cwd: app_diag_cwd()
+})
+installElectronDiagnostics()
+
+if (process.argv.includes('--collect-diagnostics')) {
+  // stdout, so it can be used in a script; logging went to stderr.
+  say.info(collectDiagnostics())
+  app.exit(0)
+}
 
 interface DisplayInfo {
   id: number
@@ -62,7 +82,7 @@ function createWindow(): BrowserWindow {
 
   if (is.dev) {
     mainWindow.webContents.on('console-message', (event) => {
-      console.log(`[renderer:${event.level}] ${event.message}`)
+      say.info(`[renderer:${event.level}] ${event.message}`)
     })
   }
 
@@ -116,7 +136,7 @@ function openOutput(mainWindow: BrowserWindow, displayId?: number): void {
 
   if (is.dev) {
     win.webContents.on('console-message', (event) => {
-      console.log(`[output:${event.level}] ${event.message}`)
+      say.info(`[output:${event.level}] ${event.message}`)
     })
   }
 
@@ -232,3 +252,10 @@ app.on('window-all-closed', () => {
   oscControlServer.shutdown()
   if (process.platform !== 'darwin') app.quit()
 })
+
+
+/** Repo root when running from source; irrelevant once packaged, where
+ *  there is no .git and the git revision reads as 'unknown'. */
+function app_diag_cwd(): string {
+  return join(__dirname, '../../..')
+}

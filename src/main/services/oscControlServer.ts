@@ -6,6 +6,7 @@ import { app } from 'electron'
 import type * as OscMin from 'osc-min'
 import type { OscMessageOutput } from 'osc-min'
 import type { OscArg, OscAction, OscConfig } from '../../shared/osc'
+import { say } from '../diag/index.js'
 
 export type { OscArg, OscAction, OscConfig }
 
@@ -118,12 +119,12 @@ class OscControlServerService extends EventEmitter {
           this.emitAction(packet)
         }
       } catch (err) {
-        console.error('[osc] Failed to parse incoming packet', err)
+        say.error('[osc] Failed to parse incoming packet', err)
       }
     })
 
     socket.on('error', (err) => {
-      console.error('[osc] Socket error', err)
+      say.error('[osc] Socket error', err)
     })
 
     socket.bind(this.config.localPort)
@@ -143,7 +144,7 @@ class OscControlServerService extends EventEmitter {
       const buf = Buffer.from(view.buffer, view.byteOffset, view.byteLength)
       this.socket?.send(buf, this.config.remotePort, this.config.remoteHost)
     } catch (err) {
-      console.error(`[osc] Failed to send feedback ${address}`, err)
+      say.error(`[osc] Failed to send feedback ${address}`, err)
     }
   }
 }
