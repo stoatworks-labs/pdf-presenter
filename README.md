@@ -9,7 +9,7 @@ A minimal, single-purpose presenter tool: open a PDF, get a presenter view on on
 screen (Now/Next preview plus a clickable slide thumbnail strip) and a clean
 fullscreen output on a second screen — no notes panel, no NDI, no network
 integrations. A stripped-down sibling of
-[presentation-commander-client](https://github.com/allansargeant/presentation-commander-client),
+[presentation-commander-client](https://github.com/stoatworks-labs/presentation-commander-client),
 keeping only its proven pdf.js rendering pipeline and multi-window/display-picker
 pattern.
 
@@ -20,7 +20,7 @@ pattern.
 ## Download
 
 Prebuilt binaries are on the
-[Releases page](https://github.com/allansargeant/pdf-presenter-lite/releases/latest),
+[Releases page](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/latest),
 covering both x64 and ARM64 on every platform — plus a combined "works on
 either architecture" option for macOS and Windows if you'd rather not think
 about which to pick:
@@ -68,7 +68,7 @@ about which to pick:
   Output open/close, system enable/disable) at `/pdfpresenter/...`, plain
   UDP rather than a Windows COM add-in, so it works on every platform this
   app ships for. A real Bitfocus Companion module ships alongside this app
-  — [companion-module-pdf-presenter-lite](https://github.com/allansargeant/companion-module-pdf-presenter-lite)
+  — [companion-module-pdf-presenter-lite](https://github.com/stoatworks-labs/companion-module-pdf-presenter-lite)
   — for driving it from a Stream Deck or any other Companion surface. An
   optional, off-by-default "watched folder" feature lets OSC open a
   specific PDF by filename without a dialog — useful for a button wall

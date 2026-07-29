@@ -80,7 +80,7 @@ function OscControl({
             Defaults to 35551 in / 35550 out. A Bitfocus Companion module for this app is available
             at{' '}
             <a
-              href="https://github.com/allansargeant/companion-module-pdf-presenter-lite"
+              href="https://github.com/stoatworks-labs/companion-module-pdf-presenter-lite"
               target="_blank"
               rel="noreferrer"
             >
