@@ -84,6 +84,16 @@ about which to pick:
   (stops at the last slide rather than looping), with its own play/pause
   control next to the OSC settings — `/pdfpresenter/slideshow/pause` and
   `/resume` suspend/resume it remotely once it's turned on
+- **Set as Default PDF App** — a titlebar button for making double-clicking
+  a PDF open straight into this app. What it actually does differs by OS,
+  since neither Windows nor macOS let a third-party app silently seize the
+  default-app slot: on Windows it registers the app as a candidate then
+  opens Settings for you to confirm; on macOS it registers with Launch
+  Services and sets the default directly if `duti` is installed
+  (`brew install duti`), otherwise shows the real manual steps; on Linux
+  it's fully automatic via `xdg-mime`. The status message always says
+  what actually happened, never a fake "done" when the real answer is
+  "you still need to confirm it"
 
 ## Architecture
 

@@ -484,3 +484,65 @@
   color: var(--text-2);
   overflow-wrap: anywhere;
 }
+
+.default-pdf-app-control {
+  margin-top: 8px;
+}
+
+.default-pdf-app-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.default-pdf-app-toggle:hover {
+  color: var(--text-1);
+  border-color: var(--accent);
+}
+
+.default-pdf-app-body {
+  margin-top: 8px;
+  padding: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  max-width: 260px;
+}
+
+.default-pdf-app-hint {
+  margin: 0 0 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.default-pdf-app-body button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-1);
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.default-pdf-app-body button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.default-pdf-app-body button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.default-pdf-app-status {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-2);
+  overflow-wrap: anywhere;
+}

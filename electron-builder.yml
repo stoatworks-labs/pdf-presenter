@@ -1,5 +1,17 @@
 appId: com.allansargeant.pdf-presenter-lite
 productName: PDF Presenter Lite
+# Declares this app as a valid .pdf handler at build time (macOS
+# CFBundleDocumentTypes, Linux shared-mime-info + .desktop MimeType) — what
+# makes "Set as Default PDF App" possible at all on those two platforms.
+# Windows self-registers at runtime instead (see defaultPdfHandler.ts):
+# this app ships portable-only, so there's no NSIS install step for
+# electron-builder's own Windows file-association support to hook into.
+fileAssociations:
+  - ext: pdf
+    name: PDF Document
+    description: PDF Document
+    mimeType: application/pdf
+    role: Viewer
 directories:
   buildResources: build
 files:

@@ -9,6 +9,11 @@ interface OpenPdfResult {
   data: string
 }
 
+interface SetDefaultPdfResult {
+  status: 'success' | 'manual' | 'error'
+  message: string
+}
+
 interface DisplayInfo {
   id: number
   label: string
@@ -100,6 +105,9 @@ const api = {
   },
   wallpaper: {
     set: (base64Png: string): Promise<void> => ipcRenderer.invoke('wallpaper:set', base64Png)
+  },
+  defaultPdfApp: {
+    set: (): Promise<SetDefaultPdfResult> => ipcRenderer.invoke('defaultPdfApp:set')
   },
   diag: {
     /** Write one JSON file describing the app's state and return its path. */

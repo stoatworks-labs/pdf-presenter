@@ -7,6 +7,7 @@ import { oscControlServer } from './services/oscControlServer'
 import type { OscArg, OscConfig } from '../shared/osc'
 import { fileControl } from './services/fileControl'
 import { setWallpaper } from './services/wallpaper'
+import { setAsDefaultPdfHandler } from './services/defaultPdfHandler'
 import { collectDiagnostics, init as initDiag, say } from './diag/index.js'
 import { installElectronDiagnostics } from './diag/electron.js'
 
@@ -37,8 +38,20 @@ interface DisplayInfo {
   primary: boolean
 }
 
+let mainWindow: BrowserWindow | null = null
 let outputWindow: BrowserWindow | null = null
 let latestOutputState: OutputState | null = null
+
+// Electron's `dialog.showOpenDialog` has separate overloads for "with parent
+// window" vs "no parent" — passing `BrowserWindow | undefined` satisfies
+// neither, so branch explicitly rather than fight the type.
+function showOpenDialogForMain(
+  options: Electron.OpenDialogOptions
+): Promise<Electron.OpenDialogReturnValue> {
+  return mainWindow && !mainWindow.isDestroyed()
+    ? dialog.showOpenDialog(mainWindow, options)
+    : dialog.showOpenDialog(options)
+}
 
 function listDisplays(): DisplayInfo[] {
   const primary = screen.getPrimaryDisplay()
@@ -63,8 +76,8 @@ function loadRenderer(win: BrowserWindow, mode?: string): void {
   }
 }
 
-function createWindow(): BrowserWindow {
-  const mainWindow = new BrowserWindow({
+function createWindow(): void {
+  const win = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 820,
@@ -77,40 +90,41 @@ function createWindow(): BrowserWindow {
       sandbox: false
     }
   })
+  mainWindow = win
 
-  mainWindow.on('ready-to-show', () => mainWindow.show())
+  win.on('ready-to-show', () => win.show())
 
   // Closing the console shouldn't leave the audience-facing Output window
   // orphaned and unreachable — confirmed live as a real bug (Windows):
   // 'window-all-closed' never fires while Output is still open, and closing
   // Output afterward crashes trying to notify an already-destroyed
   // mainWindow (see the 'closed' handler below).
-  mainWindow.on('close', () => {
+  win.on('close', () => {
     outputWindow?.close()
   })
 
   if (is.dev) {
-    mainWindow.webContents.on('console-message', (event) => {
+    win.webContents.on('console-message', (event) => {
       say.info(`[renderer:${event.level}] ${event.message}`)
     })
   }
 
-  mainWindow.webContents.setWindowOpenHandler((details) => {
+  win.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
 
-  loadRenderer(mainWindow)
-
-  return mainWindow
+  loadRenderer(win)
 }
 
 function closeOutput(): void {
   outputWindow?.close()
 }
 
-function openOutput(mainWindow: BrowserWindow, displayId?: number): void {
+function openOutput(displayId?: number): void {
   if (outputWindow) return
+  const owner = mainWindow
+  if (!owner || owner.isDestroyed()) return
 
   const displays = screen.getAllDisplays()
   const primary = screen.getPrimaryDisplay()
@@ -151,10 +165,13 @@ function openOutput(mainWindow: BrowserWindow, displayId?: number): void {
 
   win.on('closed', () => {
     outputWindow = null
-    // mainWindow may already be destroyed by the time this fires (e.g. the
-    // main window closed first and is tearing down Output as part of that,
-    // per the 'close' handler above) — sending to a destroyed window throws.
-    if (!mainWindow.isDestroyed()) mainWindow.webContents.send('output:open-changed', false)
+    // The main window may have been closed and reopened (or destroyed
+    // outright) by the time this fires — always resolve the *current*
+    // module-level mainWindow rather than the `owner` captured above, and
+    // guard against it being null/destroyed.
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('output:open-changed', false)
+    }
   })
 
   win.webContents.once('did-finish-load', () => {
@@ -163,7 +180,7 @@ function openOutput(mainWindow: BrowserWindow, displayId?: number): void {
 
   loadRenderer(win, 'output')
   outputWindow = win
-  mainWindow.webContents.send('output:open-changed', true)
+  owner.webContents.send('output:open-changed', true)
 }
 
 app.whenReady().then(() => {
@@ -173,28 +190,31 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  const mainWindow = createWindow()
+  createWindow()
 
-  // These four listeners live for the app's whole lifetime and close over
-  // this one mainWindow instance — guarded against it being destroyed
-  // (e.g. mid-shutdown, or an OSC/display event racing the window close)
-  // rather than throwing on a stale reference.
+  // These four listeners live for the app's whole lifetime, not for any one
+  // window — they read the current module-level mainWindow (reassigned by
+  // createWindow on every dock-icon reactivation) and guard against it being
+  // null/destroyed (e.g. mid-shutdown, or an OSC/display event racing the
+  // window close) rather than throwing on a stale reference.
   screen.on('display-added', () => {
-    if (!mainWindow.isDestroyed()) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('output:displays-changed', listDisplays())
     }
   })
   screen.on('display-removed', () => {
-    if (!mainWindow.isDestroyed()) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('output:displays-changed', listDisplays())
     }
   })
 
   oscControlServer.on('action', (action) => {
-    if (!mainWindow.isDestroyed()) mainWindow.webContents.send('osc:action', action)
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('osc:action', action)
   })
   oscControlServer.on('status-changed', (running: boolean) => {
-    if (!mainWindow.isDestroyed()) mainWindow.webContents.send('osc:status-changed', running)
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('osc:status-changed', running)
+    }
   })
   oscControlServer.loadConfig().then((config) => {
     if (config.autoStart) oscControlServer.start()
@@ -202,7 +222,7 @@ app.whenReady().then(() => {
   fileControl.loadConfig()
 
   ipcMain.handle('pdf:open', async () => {
-    const result = await dialog.showOpenDialog(mainWindow, {
+    const result = await showOpenDialogForMain({
       properties: ['openFile'],
       filters: [{ name: 'PDF', extensions: ['pdf'] }]
     })
@@ -218,7 +238,7 @@ app.whenReady().then(() => {
     fileControl.setFolderPathRelativeToHome(relativePath)
   )
   ipcMain.handle('files:choose-folder', async () => {
-    const result = await dialog.showOpenDialog(mainWindow, {
+    const result = await showOpenDialogForMain({
       properties: ['openDirectory', 'createDirectory']
     })
     if (result.canceled || !result.filePaths[0]) return fileControl.getConfig()
@@ -228,7 +248,7 @@ app.whenReady().then(() => {
   ipcMain.handle('files:open', (_e, filename: string) => fileControl.openFile(filename))
 
   ipcMain.handle('output:list-displays', () => listDisplays())
-  ipcMain.handle('output:open', (_e, displayId?: number) => openOutput(mainWindow, displayId))
+  ipcMain.handle('output:open', (_e, displayId?: number) => openOutput(displayId))
   ipcMain.handle('output:close', () => closeOutput())
   ipcMain.handle('output:is-open', () => outputWindow !== null)
   // Pulled by the Output window itself once its listener is mounted, rather
@@ -264,6 +284,8 @@ app.whenReady().then(() => {
   ipcMain.handle('wallpaper:set', (_e, base64Png: string) =>
     setWallpaper(Buffer.from(base64Png, 'base64'))
   )
+
+  ipcMain.handle('defaultPdfApp:set', () => setAsDefaultPdfHandler())
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
