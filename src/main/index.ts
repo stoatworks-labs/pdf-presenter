@@ -80,6 +80,15 @@ function createWindow(): BrowserWindow {
 
   mainWindow.on('ready-to-show', () => mainWindow.show())
 
+  // Closing the console shouldn't leave the audience-facing Output window
+  // orphaned and unreachable — confirmed live as a real bug (Windows):
+  // 'window-all-closed' never fires while Output is still open, and closing
+  // Output afterward crashes trying to notify an already-destroyed
+  // mainWindow (see the 'closed' handler below).
+  mainWindow.on('close', () => {
+    outputWindow?.close()
+  })
+
   if (is.dev) {
     mainWindow.webContents.on('console-message', (event) => {
       say.info(`[renderer:${event.level}] ${event.message}`)
@@ -142,7 +151,10 @@ function openOutput(mainWindow: BrowserWindow, displayId?: number): void {
 
   win.on('closed', () => {
     outputWindow = null
-    mainWindow.webContents.send('output:open-changed', false)
+    // mainWindow may already be destroyed by the time this fires (e.g. the
+    // main window closed first and is tearing down Output as part of that,
+    // per the 'close' handler above) — sending to a destroyed window throws.
+    if (!mainWindow.isDestroyed()) mainWindow.webContents.send('output:open-changed', false)
   })
 
   win.webContents.once('did-finish-load', () => {
@@ -163,17 +175,27 @@ app.whenReady().then(() => {
 
   const mainWindow = createWindow()
 
-  screen.on('display-added', () =>
-    mainWindow.webContents.send('output:displays-changed', listDisplays())
-  )
-  screen.on('display-removed', () =>
-    mainWindow.webContents.send('output:displays-changed', listDisplays())
-  )
+  // These four listeners live for the app's whole lifetime and close over
+  // this one mainWindow instance — guarded against it being destroyed
+  // (e.g. mid-shutdown, or an OSC/display event racing the window close)
+  // rather than throwing on a stale reference.
+  screen.on('display-added', () => {
+    if (!mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('output:displays-changed', listDisplays())
+    }
+  })
+  screen.on('display-removed', () => {
+    if (!mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('output:displays-changed', listDisplays())
+    }
+  })
 
-  oscControlServer.on('action', (action) => mainWindow.webContents.send('osc:action', action))
-  oscControlServer.on('status-changed', (running: boolean) =>
-    mainWindow.webContents.send('osc:status-changed', running)
-  )
+  oscControlServer.on('action', (action) => {
+    if (!mainWindow.isDestroyed()) mainWindow.webContents.send('osc:action', action)
+  })
+  oscControlServer.on('status-changed', (running: boolean) => {
+    if (!mainWindow.isDestroyed()) mainWindow.webContents.send('osc:status-changed', running)
+  })
   oscControlServer.loadConfig().then((config) => {
     if (config.autoStart) oscControlServer.start()
   })
