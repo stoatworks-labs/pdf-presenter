@@ -125,10 +125,13 @@ avoid the transform-corruption bug documented there.
 
 ## Status
 
-Built and verified end-to-end: opening a PDF, thumbnail-click navigation,
-arrow-key navigation, and the fullscreen Output window (including a real race
-condition in the initial state hand-off, found and fixed during testing) all
-confirmed working against a real multi-page PDF.
+**Field proven** — this has been run on real events, not just verified on the
+bench.
+
+Before that, it was built and verified end-to-end: opening a PDF,
+thumbnail-click navigation, arrow-key navigation, and the fullscreen Output
+window (including a real race condition in the initial state hand-off, found and
+fixed during testing) all confirmed working against a real multi-page PDF.
 
 ## Inspiration & prior art
 
