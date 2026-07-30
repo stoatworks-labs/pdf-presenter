@@ -13,6 +13,11 @@ integrations. A stripped-down sibling of
 keeping only its proven pdf.js rendering pipeline and multi-window/display-picker
 pattern.
 
+[![Watch it running — 38 seconds](docs/video-thumb.png)](https://www.youtube.com/watch?v=pKzqgFt-Tco)
+
+*A 38-second tour. Every frame is the real application presenting a real PDF, driven
+over its own OSC control surface.*
+
 ![Presenter view: Now/Next preview with a clickable slide thumbnail strip below](docs/screenshot.png)
 
 ![Fullscreen Output window showing just the current slide](docs/output-screenshot.png)
