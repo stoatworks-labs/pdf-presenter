@@ -218,6 +218,11 @@ Section "Install"
   ; The NSIS stub is 32-bit, so without this the uninstall keys are redirected
   ; into WOW6432Node and Add/Remove Programs never shows the entry.
   SetRegView 64
+  ; This installs per-machine into Program Files, so shortcuts belong in the
+  ; all-users Start Menu. Without this \$SMPROGRAMS/\$DESKTOP point at whichever
+  ; account ran the installer — which under a silent/service install is
+  ; SYSTEM, and the shortcuts vanish into a profile nobody ever sees.
+  SetShellVarContext all
 ${install_lines}
   SetOutPath "\$INSTDIR"
 ${shortcuts}
@@ -233,6 +238,7 @@ SectionEnd
 
 Section "Uninstall"
   SetRegView 64
+  SetShellVarContext all
 ${unshortcuts}
 ${uninstall_files}
   Delete "\$INSTDIR\\Uninstall.exe"
@@ -247,12 +253,22 @@ NSI
   # Under LC_CTYPE=C that conversion throws std::bad_alloc and aborts *with a
   # zero exit status*, so force a UTF-8 locale and verify the file was written
   # rather than trusting the return code.
+  #
+  # Which UTF-8 locale actually *works* varies and cannot be inferred from the
+  # name: macOS lists C.UTF-8 but treats it as plain C, which is exactly the
+  # case that aborts. So try candidates in order and keep whichever produces a
+  # file — the only reliable test, given makensis exits 0 even when it dies.
   rm -f "$outfile"
-  LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 makensis -V2 "$nsi" >"$work/makensis.log" 2>&1 || true
-  if [[ -s "$outfile" ]]; then
+  local loc ok=0
+  for loc in en_US.UTF-8 C.UTF-8 en_GB.UTF-8 UTF-8; do
+    LC_ALL="$loc" LANG="$loc" makensis -V2 "$nsi" >"$work/makensis.log" 2>&1 || true
+    if [[ -s "$outfile" ]]; then ok=1; break; fi
+  done
+
+  if (( ok )); then
     rl_note "$(basename "$outfile")"
   else
-    echo "makensis failed for ${label}:" >&2
+    echo "makensis failed for ${label} (tried every UTF-8 locale):" >&2
     tail -30 "$work/makensis.log" >&2
     rm -rf "$work"
     return 1
@@ -431,9 +447,19 @@ rl_dmg() { # rl_dmg <label> <stagedir> [--app <BundleName>]
     rl_note "create-dmg failed, falling back to hdiutil"
   fi
 
-  hdiutil create -quiet -volname "${RL_NAME} ${RL_VERSION}" \
-                 -srcfolder "$stage" -ov -format UDZO "$outfile"
-  rl_note "$(basename "$outfile")"
+  # -quiet hides hdiutil's diagnostics too, which turned a CI failure into a
+  # bare "exit code 1". Capture the output and print it only when it matters.
+  local hdlog; hdlog="$(mktemp)"
+  if hdiutil create -volname "${RL_NAME} ${RL_VERSION}" \
+                    -srcfolder "$stage" -ov -format UDZO "$outfile" >"$hdlog" 2>&1; then
+    rm -f "$hdlog"
+    rl_note "$(basename "$outfile")"
+  else
+    echo "hdiutil failed building ${label}:" >&2
+    cat "$hdlog" >&2
+    rm -f "$hdlog"
+    return 1
+  fi
 }
 
 # ------------------------------------------------------------------ report --
