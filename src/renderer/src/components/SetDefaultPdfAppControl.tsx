@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Modal from './Modal'
 
 /**
  * "Make double-clicking a PDF just open here" — as one button.
@@ -14,7 +15,7 @@ import { useState } from 'react'
  * it yourself."
  */
 function SetDefaultPdfAppControl(): React.JSX.Element {
-  const [expanded, setExpanded] = useState(false)
+  const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -32,28 +33,26 @@ function SetDefaultPdfAppControl(): React.JSX.Element {
   }
 
   return (
-    <div className="default-pdf-app-control">
-      <button
-        className="default-pdf-app-toggle"
-        onClick={() => setExpanded((v) => !v)}
-        aria-expanded={expanded}
-      >
+    <>
+      <button className="transport-btn" onClick={() => setOpen(true)} aria-haspopup="dialog">
         Default PDF App
       </button>
-      {expanded && (
-        <div className="default-pdf-app-body">
-          <p className="default-pdf-app-hint">
+      {open && (
+        <Modal title="Default PDF App" onClose={() => setOpen(false)}>
+          <p className="modal-hint">
             Make PDF Presenter Lite the app that opens when you double-click a PDF. Windows and
             macOS both require you to confirm this yourself — this button gets you as close to done
             as an app is allowed to.
           </p>
-          <button onClick={setDefault} disabled={busy}>
-            {busy ? 'Setting…' : 'Set as Default PDF App'}
-          </button>
-          {status && <p className="default-pdf-app-status">{status}</p>}
-        </div>
+          <div className="modal-actions">
+            <button className="transport-btn" onClick={setDefault} disabled={busy}>
+              {busy ? 'Setting…' : 'Set as Default PDF App'}
+            </button>
+          </div>
+          {status && <p className="modal-status">{status}</p>}
+        </Modal>
       )}
-    </div>
+    </>
   )
 }
 

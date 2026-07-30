@@ -50,7 +50,10 @@ about which to pick:
   strip of thumbnails for every slide below them; click any thumbnail to jump
   straight to that slide
 - **Keyboard navigation** — Left/Right, Up/Down, and Page Up/Page Down all
-  move a slide; Space also advances
+  move a slide; Space also advances. The same keys work whether the presenter
+  view or the fullscreen Output window has focus, so a presentation clicker
+  keeps working on a single-display machine, or after a stray click moves
+  focus to the Output window
 - **Mouse navigation** — a Previous/Next transport bar below the thumbnail
   strip, and clicking the "Next" preview itself jumps straight to it
 - **Internal PDF link navigation** — links authored into the PDF itself (a
@@ -62,7 +65,9 @@ about which to pick:
   are left alone
 - **Fullscreen Output window** — a second, chrome-free window showing just the
   current slide, for a projector or confidence monitor. Pick which connected
-  display it opens on from a dropdown next to the toggle button
+  display it opens on from a dropdown next to the toggle button. The two
+  windows carry distinct names in the window switcher — "PDF Presenter Lite —
+  Control" and "PDF Presenter Lite — Output (<display>)"
 - **Screen blanking** — press `B` or `W` to cut the Output window to solid
   black or white without losing your place, mirroring PowerPoint's presenter
   shortcuts; press again to restore the slide

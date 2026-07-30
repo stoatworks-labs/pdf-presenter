@@ -1,19 +1,20 @@
 import { useState } from 'react'
+import Modal from './Modal'
 
 /**
  * "Something went wrong, send me the details" — as one button.
  *
  * The bundle is a single JSON file holding the logs, the build identity, the
  * settings (with anything password-shaped removed) and any recent crash
- * report. Collapsed by default: this is a support tool, not something anyone
- * needs during a show.
+ * report. Behind a popup: this is a support tool, not something anyone needs
+ * during a show, and it must not disturb the presenter view to open it.
  *
  * The path is copied to the clipboard as well as shown, because nobody retypes
  * a path out of a dialog, and revealed in the file manager because on macOS it
  * lives under ~/Library/Logs, which is hidden in Finder by default.
  */
 function DiagnosticsPanel(): React.JSX.Element {
-  const [expanded, setExpanded] = useState(false)
+  const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -45,31 +46,29 @@ function DiagnosticsPanel(): React.JSX.Element {
   }
 
   return (
-    <div className="diagnostics-panel">
-      <button
-        className="diagnostics-toggle"
-        onClick={() => setExpanded((v) => !v)}
-        aria-expanded={expanded}
-      >
+    <>
+      <button className="transport-btn" onClick={() => setOpen(true)} aria-haspopup="dialog">
         Diagnostics
       </button>
-      {expanded && (
-        <div className="diagnostics-body">
-          <p className="diagnostics-hint">
-            If something goes wrong, collect diagnostics and attach the file to your bug report.
-            It holds the logs, the app version, your settings with any passwords removed, and
-            details of any recent crash.
+      {open && (
+        <Modal title="Diagnostics" onClose={() => setOpen(false)}>
+          <p className="modal-hint">
+            If something goes wrong, collect diagnostics and attach the file to your bug report. It
+            holds the logs, the app version, your settings with any passwords removed, and details
+            of any recent crash.
           </p>
-          <div className="diagnostics-actions">
-            <button onClick={collect} disabled={busy}>
+          <div className="modal-actions">
+            <button className="transport-btn" onClick={collect} disabled={busy}>
               {busy ? 'Collecting…' : 'Collect Diagnostics'}
             </button>
-            <button onClick={openFolder}>Open Log Folder</button>
+            <button className="transport-btn" onClick={openFolder}>
+              Open Log Folder
+            </button>
           </div>
-          {status && <p className="diagnostics-status">{status}</p>}
-        </div>
+          {status && <p className="modal-status">{status}</p>}
+        </Modal>
       )}
-    </div>
+    </>
   )
 }
 

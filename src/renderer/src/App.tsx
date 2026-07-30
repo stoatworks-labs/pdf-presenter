@@ -1,7 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PDFDocumentProxy } from 'pdfjs-dist'
 import { loadPdf, getSections, renderPageContain } from './pdf'
 import type { ScreenBlank } from '../../shared/output'
+import { controlKeyAction } from '../../shared/keys'
+import type { ControlKeyAction } from '../../shared/keys'
+import { isModalOpen } from './components/modalState'
 import NowNext from './components/NowNext'
 import Thumbnail from './components/Thumbnail'
 import OutputControl from './components/OutputControl'
@@ -205,33 +208,49 @@ function App(): React.JSX.Element {
     })
   }, [])
 
+  // The single place a transport keypress turns into a state change,
+  // whichever window it arrived at. Only functional updaters and refs, so the
+  // empty-deps effects below can hold onto it without going stale.
+  const applyControlAction = useCallback((action: ControlKeyAction): void => {
+    switch (action) {
+      case 'next':
+        setCurrentPage((p) => Math.min(p + 1, totalPagesRef.current || p))
+        break
+      case 'previous':
+        setCurrentPage((p) => Math.max(p - 1, 1))
+        break
+      case 'toggle-black':
+        setScreenBlank((b) => (b === 'black' ? 'none' : 'black'))
+        break
+      case 'toggle-white':
+        setScreenBlank((b) => (b === 'white' ? 'none' : 'white'))
+        break
+    }
+  }, [])
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent): void => {
       const target = e.target as HTMLElement | null
       if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return
-      if (
-        e.key === 'ArrowRight' ||
-        e.key === ' ' ||
-        e.key === 'ArrowDown' ||
-        e.key === 'PageDown'
-      ) {
-        e.preventDefault()
-        setCurrentPage((p) => Math.min(p + 1, totalPagesRef.current || p))
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault()
-        setCurrentPage((p) => Math.max(p - 1, 1))
-      }
-      if (e.key === 'b' || e.key === 'B') {
-        setScreenBlank((b) => (b === 'black' ? 'none' : 'black'))
-      }
-      if (e.key === 'w' || e.key === 'W') {
-        setScreenBlank((b) => (b === 'white' ? 'none' : 'white'))
-      }
+      // A popup panel owns the keyboard while it's open — Space belongs to
+      // whatever button is focused in it, not to the deck behind it.
+      if (isModalOpen()) return
+      const action = controlKeyAction(e.key)
+      if (!action) return
+      // Scrolling the thumbnail strip is what these keys would otherwise do.
+      if (action === 'next' || action === 'previous') e.preventDefault()
+      applyControlAction(action)
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [])
+  }, [applyControlAction])
+
+  // Keys pressed while the fullscreen Output window had focus, relayed by the
+  // main process (#9). Not gated on isModalOpen: this is a different window
+  // entirely, closer to an OSC command than to local typing.
+  useEffect(() => {
+    return window.api.control.onKeyAction(applyControlAction)
+  }, [applyControlAction])
 
   const openPdf = async (): Promise<void> => {
     const result = await window.api.pdf.open()
@@ -242,7 +261,7 @@ function App(): React.JSX.Element {
   return (
     <div className="app-shell">
       <div className="app-titlebar">
-        <span>{fileName ?? 'PDF Presenter Lite'}</span>
+        <span className="app-titlebar-name">{fileName ?? 'PDF Presenter Lite'}</span>
         <div className="titlebar-actions">
           <OutputControl
             disabled={!doc}

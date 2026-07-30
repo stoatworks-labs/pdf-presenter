@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { OutputState, LaserPosition } from '../shared/output'
+import type { ControlKeyAction } from '../shared/keys'
 import type { OscArg, OscAction, OscConfig } from '../shared/osc'
 import type { FileControlConfig } from '../shared/files'
 
@@ -65,6 +66,19 @@ const api = {
       ipcRenderer.on('output:laser-position', listener)
       return (): void => {
         ipcRenderer.removeListener('output:laser-position', listener)
+      }
+    }
+  },
+  control: {
+    /** Transport keypresses that landed on the Output window instead of the
+     *  control window, relayed by the main process so a focused Output (or a
+     *  clicker aimed at it) still drives the show. */
+    onKeyAction: (callback: (action: ControlKeyAction) => void) => {
+      const listener = (_e: Electron.IpcRendererEvent, action: ControlKeyAction): void =>
+        callback(action)
+      ipcRenderer.on('control:key-action', listener)
+      return (): void => {
+        ipcRenderer.removeListener('control:key-action', listener)
       }
     }
   },

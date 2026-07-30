@@ -3,6 +3,7 @@ import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import type { OutputState, LaserPosition } from '../shared/output'
+import { controlKeyAction } from '../shared/keys'
 import { oscControlServer } from './services/oscControlServer'
 import type { OscArg, OscConfig } from '../shared/osc'
 import { fileControl } from './services/fileControl'
@@ -18,7 +19,7 @@ import { installElectronDiagnostics } from './diag/electron.js'
 initDiag({
   app: 'pdf-presenter-lite',
   envPrefix: 'PDF_PRESENTER',
-  version: '1.2.0',
+  version: '1.3.0',
   cwd: app_diag_cwd()
 })
 installElectronDiagnostics()
@@ -38,6 +39,11 @@ interface DisplayInfo {
   primary: boolean
 }
 
+/** Distinct, self-describing window names — the presenter's console and the
+ *  audience-facing output are two very different things to pick out of a
+ *  window switcher, and both used to be called "PDF Presenter Lite" (#9). */
+const CONTROL_WINDOW_TITLE = 'PDF Presenter Lite — Control'
+
 let mainWindow: BrowserWindow | null = null
 let outputWindow: BrowserWindow | null = null
 let latestOutputState: OutputState | null = null
@@ -53,16 +59,32 @@ function showOpenDialogForMain(
     : dialog.showOpenDialog(options)
 }
 
+/** The OS's own name for a screen where it has one, and a stable positional
+ *  fallback where it doesn't (Windows frequently reports an empty label). */
+function displayLabel(display: Electron.Display, index: number): string {
+  return display.label || (display.internal ? 'Built-in Display' : `Display ${index + 1}`)
+}
+
 function listDisplays(): DisplayInfo[] {
   const primary = screen.getPrimaryDisplay()
   return screen.getAllDisplays().map((d, i) => ({
     id: d.id,
-    label: d.label || (d.internal ? 'Built-in Display' : `Display ${i + 1}`),
+    label: displayLabel(d, i),
     width: d.bounds.width,
     height: d.bounds.height,
     internal: d.internal ?? false,
     primary: d.id === primary.id
   }))
+}
+
+/** Both windows render the same index.html, so both inherit its <title> the
+ *  moment their page loads — which is how the control and output windows
+ *  ended up indistinguishable in the window manager, Mission Control and
+ *  alt-tab (#9). Refusing the page's title is what makes a per-window name
+ *  stick; the `title:` constructor option alone does not survive the load. */
+function nameWindow(win: BrowserWindow, title: string): void {
+  win.on('page-title-updated', (event) => event.preventDefault())
+  win.setTitle(title)
 }
 
 function loadRenderer(win: BrowserWindow, mode?: string): void {
@@ -78,11 +100,16 @@ function loadRenderer(win: BrowserWindow, mode?: string): void {
 
 function createWindow(): void {
   const win = new BrowserWindow({
-    width: 1200,
+    // Wide enough for the whole titlebar to sit on one row; below roughly
+    // 1300 the controls need a second row, which is handled but is not the
+    // look the presenter view was designed around. Electron clamps this to
+    // the work area on smaller screens.
+    width: 1400,
     height: 800,
     minWidth: 820,
     minHeight: 600,
     show: false,
+    title: CONTROL_WINDOW_TITLE,
     autoHideMenuBar: true,
     backgroundColor: '#0f1013',
     webPreferences: {
@@ -91,6 +118,7 @@ function createWindow(): void {
     }
   })
   mainWindow = win
+  nameWindow(win, CONTROL_WINDOW_TITLE)
 
   win.on('ready-to-show', () => win.show())
 
@@ -146,6 +174,11 @@ function openOutput(displayId?: number): void {
     }
   })
 
+  // Naming it after the display it is actually on, because on a multi-screen
+  // rig "which output is this?" is the question the window manager is being
+  // asked in the first place.
+  nameWindow(win, `PDF Presenter Lite — Output (${displayLabel(target, displays.indexOf(target))})`)
+
   // Setting fullscreen at construction time can leave the window invisible
   // to the OS window server on macOS; show it plain first, then transition.
   win.once('ready-to-show', () => {
@@ -153,8 +186,22 @@ function openOutput(displayId?: number): void {
     win.setFullScreen(true)
   })
 
+  // The Output window is a plausible thing to have focused — a single-display
+  // machine has nowhere else for focus to go, and on any machine a stray
+  // click lands here — so it must not swallow the show's controls (#9).
+  // Watching raw input in the main process rather than in the Output
+  // renderer catches the keypress wherever focus sits inside the page, and
+  // keeps the control window as the single owner of presentation state.
   win.webContents.on('before-input-event', (_event, input) => {
-    if (input.key === 'Escape') closeOutput()
+    if (input.type !== 'keyDown') return
+    if (input.key === 'Escape') {
+      closeOutput()
+      return
+    }
+    const action = controlKeyAction(input.key)
+    if (action && mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('control:key-action', action)
+    }
   })
 
   if (is.dev) {
@@ -296,7 +343,6 @@ app.on('window-all-closed', () => {
   oscControlServer.shutdown()
   if (process.platform !== 'darwin') app.quit()
 })
-
 
 /** Repo root when running from source; irrelevant once packaged, where
  *  there is no .git and the git revision reads as 'unknown'. */
