@@ -1,0 +1,12 @@
+# Hosted build of the presenter — a Worker that serves the static build
+# (out-static) and nothing else. There is no server-side code and no upload
+# endpoint: the PDF is read by the page from your own disk and stays there.
+#
+# Build with `npm run static:build`, publish with `cf-run npx wrangler deploy`.
+name = "pdf-presenter-lite"
+compatibility_date = "2026-07-30"
+
+[assets]
+directory = "./out-static"
+# The Output window loads `/?mode=output`; keep any other path on the SPA too.
+not_found_handling = "single-page-application"

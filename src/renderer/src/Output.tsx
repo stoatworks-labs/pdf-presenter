@@ -8,7 +8,22 @@ function Output(): React.JSX.Element {
   const [doc, setDoc] = useState<PDFDocumentProxy | null>(null)
   const [state, setState] = useState<OutputState | null>(null)
   const [laserPosition, setLaserPosition] = useState<LaserPosition | null>(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const lastDataRef = useRef<string | null>(null)
+
+  /**
+   * Only the browser build needs this. Electron opens the Output fullscreen on
+   * a display the presenter chose; a browser popup is an ordinary window, and
+   * only a gesture inside it can make it fullscreen — so it has to ask.
+   */
+  const needsFullscreenPrompt = !window.api.capabilities.managedOutputWindow && !isFullscreen
+
+  useEffect(() => {
+    const sync = (): void => setIsFullscreen(document.fullscreenElement !== null)
+    sync()
+    document.addEventListener('fullscreenchange', sync)
+    return () => document.removeEventListener('fullscreenchange', sync)
+  }, [])
 
   useEffect(() => {
     const applyState = (next: OutputState): void => {
@@ -53,6 +68,15 @@ function Output(): React.JSX.Element {
             : undefined
       }
     >
+      {needsFullscreenPrompt && (
+        <button
+          className="output-fullscreen-prompt"
+          onClick={() => document.documentElement.requestFullscreen().catch(() => {})}
+        >
+          Drag this window to your output display, then click here for fullscreen
+        </button>
+      )}
+
       {blank === 'none' &&
         (doc && state ? (
           <div className="output-canvas-frame">

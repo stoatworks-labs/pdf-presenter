@@ -13,10 +13,14 @@ function OscControl({
   filesFolderFullPath,
   onFilesEnabledChange,
   onChooseFilesFolder
-}: Props): React.JSX.Element {
+}: Props): React.JSX.Element | null {
   const [running, setRunning] = useState(false)
   const [config, setConfig] = useState<OscConfig | null>(null)
   const [expanded, setExpanded] = useState(false)
+
+  // No UDP socket in a browser tab, so there is no server to start and no
+  // watch folder to point it at.
+  const supported = window.api.capabilities.osc
 
   useEffect(() => {
     window.api.osc.isRunning().then(setRunning)
@@ -36,6 +40,8 @@ function OscControl({
     setConfig((current) => (current ? { ...current, ...next } : current))
     window.api.osc.setConfig(next)
   }
+
+  if (!supported) return null
 
   return (
     <div className="osc-control">

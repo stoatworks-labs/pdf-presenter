@@ -13,10 +13,14 @@ import Modal from './Modal'
  * a path out of a dialog, and revealed in the file manager because on macOS it
  * lives under ~/Library/Logs, which is hidden in Finder by default.
  */
-function DiagnosticsPanel(): React.JSX.Element {
+function DiagnosticsPanel(): React.JSX.Element | null {
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+
+  // The bundle is collected from a log folder on disk, which a browser build
+  // does not have.
+  const supported = window.api.capabilities.diagnostics
 
   const collect = async (): Promise<void> => {
     setBusy(true)
@@ -44,6 +48,8 @@ function DiagnosticsPanel(): React.JSX.Element {
       setStatus(`Could not open the log folder: ${(err as Error).message}`)
     }
   }
+
+  if (!supported) return null
 
   return (
     <>

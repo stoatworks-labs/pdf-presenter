@@ -4,27 +4,25 @@ import type { OutputState, LaserPosition } from '../shared/output'
 import type { ControlKeyAction } from '../shared/keys'
 import type { OscArg, OscAction, OscConfig } from '../shared/osc'
 import type { FileControlConfig } from '../shared/files'
+import type {
+  DisplayInfo,
+  OpenPdfResult,
+  PresenterApi,
+  SetDefaultPdfResult,
+  Unsubscribe
+} from '../shared/api'
 
-interface OpenPdfResult {
-  filePath: string
-  data: string
-}
+const api: PresenterApi = {
+  // The desktop app is the full-capability backend: it owns a UDP socket, the
+  // filesystem, and the desktop itself.
+  capabilities: {
+    osc: true,
+    fileControl: true,
+    desktopIntegration: true,
+    diagnostics: true,
+    managedOutputWindow: true
+  },
 
-interface SetDefaultPdfResult {
-  status: 'success' | 'manual' | 'error'
-  message: string
-}
-
-interface DisplayInfo {
-  id: number
-  label: string
-  width: number
-  height: number
-  internal: boolean
-  primary: boolean
-}
-
-const api = {
   pdf: {
     open: (): Promise<OpenPdfResult | null> => ipcRenderer.invoke('pdf:open')
   },
@@ -36,14 +34,14 @@ const api = {
     getState: (): Promise<OutputState | null> => ipcRenderer.invoke('output:get-state'),
     pushState: (state: OutputState): Promise<void> =>
       ipcRenderer.invoke('output:push-state', state),
-    onOpenChanged: (callback: (open: boolean) => void) => {
+    onOpenChanged: (callback: (open: boolean) => void): Unsubscribe => {
       const listener = (_e: Electron.IpcRendererEvent, open: boolean): void => callback(open)
       ipcRenderer.on('output:open-changed', listener)
       return (): void => {
         ipcRenderer.removeListener('output:open-changed', listener)
       }
     },
-    onDisplaysChanged: (callback: (displays: DisplayInfo[]) => void) => {
+    onDisplaysChanged: (callback: (displays: DisplayInfo[]) => void): Unsubscribe => {
       const listener = (_e: Electron.IpcRendererEvent, displays: DisplayInfo[]): void =>
         callback(displays)
       ipcRenderer.on('output:displays-changed', listener)
@@ -51,7 +49,7 @@ const api = {
         ipcRenderer.removeListener('output:displays-changed', listener)
       }
     },
-    onState: (callback: (state: OutputState) => void) => {
+    onState: (callback: (state: OutputState) => void): Unsubscribe => {
       const listener = (_e: Electron.IpcRendererEvent, state: OutputState): void => callback(state)
       ipcRenderer.on('output:state', listener)
       return (): void => {
@@ -60,7 +58,7 @@ const api = {
     },
     pushLaserPosition: (position: LaserPosition | null): Promise<void> =>
       ipcRenderer.invoke('output:push-laser-position', position),
-    onLaserPosition: (callback: (position: LaserPosition | null) => void) => {
+    onLaserPosition: (callback: (position: LaserPosition | null) => void): Unsubscribe => {
       const listener = (_e: Electron.IpcRendererEvent, position: LaserPosition | null): void =>
         callback(position)
       ipcRenderer.on('output:laser-position', listener)
@@ -73,7 +71,7 @@ const api = {
     /** Transport keypresses that landed on the Output window instead of the
      *  control window, relayed by the main process so a focused Output (or a
      *  clicker aimed at it) still drives the show. */
-    onKeyAction: (callback: (action: ControlKeyAction) => void) => {
+    onKeyAction: (callback: (action: ControlKeyAction) => void): Unsubscribe => {
       const listener = (_e: Electron.IpcRendererEvent, action: ControlKeyAction): void =>
         callback(action)
       ipcRenderer.on('control:key-action', listener)
@@ -91,14 +89,14 @@ const api = {
       ipcRenderer.invoke('osc:set-config', next),
     send: (address: string, args: OscArg[]): Promise<void> =>
       ipcRenderer.invoke('osc:send', address, args),
-    onAction: (callback: (action: OscAction) => void) => {
+    onAction: (callback: (action: OscAction) => void): Unsubscribe => {
       const listener = (_e: Electron.IpcRendererEvent, action: OscAction): void => callback(action)
       ipcRenderer.on('osc:action', listener)
       return (): void => {
         ipcRenderer.removeListener('osc:action', listener)
       }
     },
-    onStatusChanged: (callback: (running: boolean) => void) => {
+    onStatusChanged: (callback: (running: boolean) => void): Unsubscribe => {
       const listener = (_e: Electron.IpcRendererEvent, running: boolean): void => callback(running)
       ipcRenderer.on('osc:status-changed', listener)
       return (): void => {
@@ -145,4 +143,4 @@ if (process.contextIsolated) {
   window.api = api
 }
 
-export type Api = typeof api
+export type Api = PresenterApi

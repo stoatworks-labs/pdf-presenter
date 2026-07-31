@@ -443,6 +443,29 @@
   cursor: none;
 }
 
+/* Browser build only: a popup Output can only be made fullscreen by a gesture
+   inside itself. Sits over the slide because it disappears the moment it is
+   used, and an operator who can't find it has a window they can't fullscreen. */
+.output-fullscreen-prompt {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-2);
+  color: var(--text-1);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.output-fullscreen-prompt:hover {
+  border-color: var(--accent);
+}
+
 /* --- Popup panels ------------------------------------------------------- */
 /* Diagnostics and Default PDF App: occasional-use text panels that used to
    expand inline and burst the 40px titlebar (#10). Now portalled to the

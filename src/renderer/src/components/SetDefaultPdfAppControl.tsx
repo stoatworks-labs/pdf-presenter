@@ -14,10 +14,13 @@ import Modal from './Modal'
  * never a fake "success" when the real answer is "you still need to pick
  * it yourself."
  */
-function SetDefaultPdfAppControl(): React.JSX.Element {
+function SetDefaultPdfAppControl(): React.JSX.Element | null {
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+
+  // A web page has no say over which application owns .pdf on this machine.
+  const supported = window.api.capabilities.desktopIntegration
 
   const setDefault = async (): Promise<void> => {
     setBusy(true)
@@ -31,6 +34,8 @@ function SetDefaultPdfAppControl(): React.JSX.Element {
       setBusy(false)
     }
   }
+
+  if (!supported) return null
 
   return (
     <>

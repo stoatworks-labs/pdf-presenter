@@ -2,6 +2,7 @@ node_modules
 dist
 dist-release
 out
+out-static
 .DS_Store
 .eslintcache
 *.log*

@@ -139,6 +139,40 @@ These builds are unsigned, so macOS and Windows each warn once on first launch �
   what actually happened, never a fake "done" when the real answer is
   "you still need to confirm it"
 
+## Run it in a browser, with nothing installed
+
+Everything above renders with pdf.js — the desktop app was never doing that part
+natively — so the presenter view works just as well as a **hosted web app** with
+no backend at all. Build it with `npm run static:build` and publish the result as
+static assets (a Cloudflare Worker, in this project's case).
+
+**Your PDF is never uploaded.** There is no server and no upload endpoint: the
+file is read by the page from your own disk, and the deck, the thumbnails and the
+Output window all stay inside your browser.
+
+| | Desktop app | Browser |
+|---|---|---|
+| Presenter view, thumbnails, transport | ✅ | ✅ |
+| Fullscreen Output window | ✅ chosen display, opened fullscreen | ✅ popup you place, click to fullscreen |
+| Keyboard / clicker, incl. from the Output window | ✅ | ✅ |
+| Screen blanking, laser pointer, hide cursor | ✅ | ✅ |
+| Internal PDF links, sections, auto-advance | ✅ | ✅ |
+| **OSC control** (+ Companion module) | ✅ | ❌ |
+| **Watched folder** | ✅ | ❌ |
+| Set as default PDF app, wallpaper export | ✅ | ❌ |
+| Diagnostics bundle | ✅ | ❌ |
+
+The exclusions are all the same limitation: a web page has no UDP socket, no
+path-addressable filesystem, and no authority over the desktop it runs on. The UI
+hides those controls in the browser build rather than showing buttons that cannot
+work. **If you drive the show from a Stream Deck, use the desktop app.**
+
+Two differences worth knowing about the browser Output window: it opens as a
+**pop-up**, so allow pop-ups for the site, and because only a gesture inside that
+window can make it fullscreen, it shows a "click here for fullscreen" prompt until
+you do. On Chromium it will try to place itself on your second screen; that needs
+the Window Management permission, and a refusal just means you drag it there.
+
 ## Architecture
 
 Two renderer views loaded from the same bundle, selected by a `mode` query param
@@ -157,6 +191,20 @@ Two renderer views loaded from the same bundle, selected by a `mode` query param
 presentation-commander-client — same render-queue-per-canvas serialization to
 avoid the transform-corruption bug documented there.
 
+Both views talk to one interface, `PresenterApi` in
+[`src/shared/api.ts`](src/shared/api.ts), and two backends implement it:
+
+- [`src/preload/index.ts`](src/preload/index.ts) — the Electron IPC bridge.
+- [`src/web/browserApi.ts`](src/web/browserApi.ts) — the hosted build. The
+  Output window is a `window.open` pop-up and the two windows talk over a
+  `BroadcastChannel`, which stands in for everything the main process does
+  between them: forwarding state and laser position, relaying transport keys
+  pressed while the Output has focus, and holding the last state so an Output
+  that finishes loading after a push can pull it (the race called out above).
+
+Each backend declares what it can do through `capabilities`, and the components
+branch on that — **never on "is this Electron"**.
+
 ## Status
 
 **Field proven** — this has been run on real events, not just verified on the
@@ -166,6 +214,15 @@ Before that, it was built and verified end-to-end: opening a PDF,
 thumbnail-click navigation, arrow-key navigation, and the fullscreen Output
 window (including a real race condition in the initial state hand-off, found and
 fixed during testing) all confirmed working against a real multi-page PDF.
+
+**The browser build is newer and has not been run on an event.** It was verified
+against a real multi-page PDF in Chromium: the deck loads and renders, the
+presenter view and thumbnails work, state and laser position reach a separate
+Output window, transport keys pressed in the Output window drive the control
+window, and an Output window loaded *after* a push pulls the current state. What
+has **not** been exercised is a real two-monitor setup — the pop-up placement and
+the fullscreen prompt were tested as ordinary browser windows, not against a
+projector.
 
 ## Inspiration & prior art
 
@@ -215,6 +272,16 @@ npm run dev
 npm run build
 npm run build:mac   # or build:win / build:linux
 ```
+
+### Hosted (browser) target
+
+```bash
+npm run preview:static   # vite dev server on :5185, no backend
+npm run static:build     # production build into out-static/
+npm run deploy:static    # build, then publish the Worker (needs Cloudflare creds)
+```
+
+The Output window is `/?mode=output` — the same URL the pop-up opens.
 
 ## Unsigned builds — Gatekeeper, SmartScreen & Defender Firewall
 
