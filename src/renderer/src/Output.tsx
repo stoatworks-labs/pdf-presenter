@@ -69,11 +69,17 @@ function Output(): React.JSX.Element {
       }
     >
       {needsFullscreenPrompt && (
+        /* Two separate things, and the window usually gets the first one right
+           on its own: placement is done by the opener (which can put this on the
+           second screen when the browser allows it), but going fullscreen needs
+           a gesture inside this window and nothing else will do. So the click is
+           the headline and moving the window is the footnote. */
         <button
           className="output-fullscreen-prompt"
           onClick={() => document.documentElement.requestFullscreen().catch(() => {})}
         >
-          Drag this window to your output display, then click here for fullscreen
+          <strong>Click for fullscreen</strong>
+          <span>If this window isn&rsquo;t on your output display, drag it there first.</span>
         </button>
       )}
 

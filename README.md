@@ -167,11 +167,15 @@ path-addressable filesystem, and no authority over the desktop it runs on. The U
 hides those controls in the browser build rather than showing buttons that cannot
 work. **If you drive the show from a Stream Deck, use the desktop app.**
 
-Two differences worth knowing about the browser Output window: it opens as a
-**pop-up**, so allow pop-ups for the site, and because only a gesture inside that
-window can make it fullscreen, it shows a "click here for fullscreen" prompt until
-you do. On Chromium it will try to place itself on your second screen; that needs
-the Window Management permission, and a refusal just means you drag it there.
+Two differences worth knowing about the browser Output window. It opens as a
+**pop-up**, so allow pop-ups for the site. And it opens as a normal window
+rather than fullscreen: only a gesture inside a window can make that window
+fullscreen, so it shows a "Click for fullscreen" prompt, and that click is
+unavoidable — nothing the opener does can stand in for it.
+
+On Chromium it puts itself on your second display, which needs the Window
+Management permission; refuse it and the window simply opens where the browser
+would have put it and you move it yourself. Either way the click is the same.
 
 ## Architecture
 
@@ -220,8 +224,12 @@ verified on a dual-display setup. Against a real multi-page PDF: the deck loads
 and renders, the presenter view and thumbnails work, state and laser position
 reach a separate Output window, transport keys pressed in the Output window
 drive the control window, an Output window loaded *after* a push pulls the
-current state, and the Output window places and goes fullscreen on a second
-display.
+current state, and the Output window opens **on the second display** by itself.
+
+It opens there as a normal window, not fullscreen — that part is one click, and
+has to be. Fullscreen can only be entered by a gesture inside the window that is
+going fullscreen, so no amount of work in the opener can skip it; the prompt in
+the Output window is that gesture.
 
 ## Inspiration & prior art
 
