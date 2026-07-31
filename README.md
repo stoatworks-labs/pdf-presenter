@@ -215,14 +215,13 @@ thumbnail-click navigation, arrow-key navigation, and the fullscreen Output
 window (including a real race condition in the initial state hand-off, found and
 fixed during testing) all confirmed working against a real multi-page PDF.
 
-**The browser build is newer and has not been run on an event.** It was verified
-against a real multi-page PDF in Chromium: the deck loads and renders, the
-presenter view and thumbnails work, state and laser position reach a separate
-Output window, transport keys pressed in the Output window drive the control
-window, and an Output window loaded *after* a push pulls the current state. What
-has **not** been exercised is a real two-monitor setup — the pop-up placement and
-the fullscreen prompt were tested as ordinary browser windows, not against a
-projector.
+**The browser build is newer and has not been run on an event**, but it has been
+verified on a dual-display setup. Against a real multi-page PDF: the deck loads
+and renders, the presenter view and thumbnails work, state and laser position
+reach a separate Output window, transport keys pressed in the Output window
+drive the control window, an Output window loaded *after* a push pulls the
+current state, and the Output window places and goes fullscreen on a second
+display.
 
 ## Inspiration & prior art
 
