@@ -148,7 +148,14 @@ static assets (a Cloudflare Worker, in this project's case).
 
 **Your PDF is never uploaded.** There is no server and no upload endpoint: the
 file is read by the page from your own disk, and the deck, the thumbnails and the
-Output window all stay inside your browser.
+Output window all stay inside your browser. Live at
+**[pdf-presenter-lite.stoatworks-labs.com](https://pdf-presenter-lite.stoatworks-labs.com)**.
+
+[![Watch the browser build — 47 seconds](docs/video-web-thumb.png)](https://www.youtube.com/watch?v=5gxPD5JmbzU)
+
+*A 47-second tour of the hosted build, filmed at that address: a deck opened from
+disk, Now and Next, the thumbnail strip, then the Output window on top of it. The
+deck is generated for these videos, so nobody else's slides appear in it.*
 
 | | Desktop app | Browser |
 |---|---|---|
