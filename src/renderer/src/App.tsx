@@ -261,7 +261,7 @@ function App(): React.JSX.Element {
   return (
     <div className="app-shell">
       <div className="app-titlebar">
-        <span className="app-titlebar-name">{fileName ?? 'PDF Presenter Lite'}</span>
+        <span className="app-titlebar-name">{fileName ?? window.api.productName}</span>
         <div className="titlebar-actions">
           <OutputControl
             disabled={!doc}

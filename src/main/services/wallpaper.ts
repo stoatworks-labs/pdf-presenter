@@ -26,7 +26,7 @@ function encodePowerShellCommand(script: string): string {
  *   handle every desktop environment's own API.
  */
 export async function setWallpaper(pngBuffer: Buffer): Promise<void> {
-  const filePath = join(tmpdir(), `pdf-presenter-lite-wallpaper-${Date.now()}.png`)
+  const filePath = join(tmpdir(), `pdf-presenter-wallpaper-${Date.now()}.png`)
   await writeFile(filePath, pngBuffer)
 
   if (process.platform === 'darwin') {

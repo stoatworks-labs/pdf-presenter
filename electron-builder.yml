@@ -1,5 +1,5 @@
-appId: com.allansargeant.pdf-presenter-lite
-productName: PDF Presenter Lite
+appId: com.allansargeant.pdf-presenter
+productName: PDF Presenter
 # Declares this app as a valid .pdf handler at build time (macOS
 # CFBundleDocumentTypes, Linux shared-mime-info + .desktop MimeType) — what
 # makes "Set as Default PDF App" possible at all on those two platforms.
@@ -28,7 +28,7 @@ files:
   # both x64 and arm64 packaged trees and breaks the universal-binary merge.
   - '!**/node_modules/@napi-rs/**'
 win:
-  executableName: pdf-presenter-lite
+  executableName: pdf-presenter
   target:
     - target: nsis
       arch:

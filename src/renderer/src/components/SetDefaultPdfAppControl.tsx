@@ -45,9 +45,9 @@ function SetDefaultPdfAppControl(): React.JSX.Element | null {
       {open && (
         <Modal title="Default PDF App" onClose={() => setOpen(false)}>
           <p className="modal-hint">
-            Make PDF Presenter Lite the app that opens when you double-click a PDF. Windows and
-            macOS both require you to confirm this yourself — this button gets you as close to done
-            as an app is allowed to.
+            Make {window.api.productName} the app that opens when you double-click a PDF. Windows
+            and macOS both require you to confirm this yourself — this button gets you as close to
+            done as an app is allowed to.
           </p>
           <div className="modal-actions">
             <button className="transport-btn" onClick={setDefault} disabled={busy}>

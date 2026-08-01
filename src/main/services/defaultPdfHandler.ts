@@ -18,10 +18,10 @@ function encodePowerShellCommand(script: string): string {
 // Matches this app's electron-builder.yml appId — hardcoded rather than read
 // from the running app bundle, since that's simpler and exactly as reliable
 // (it's fixed at build time either way).
-const MAC_BUNDLE_ID = 'com.allansargeant.pdf-presenter-lite'
-const WIN_PROG_ID = 'PDFPresenterLite.pdf'
-const WIN_REG_SUBKEY = 'PDFPresenterLite'
-const APP_NAME = 'PDF Presenter Lite'
+const MAC_BUNDLE_ID = 'com.allansargeant.pdf-presenter'
+const WIN_PROG_ID = 'PDFPresenter.pdf'
+const WIN_REG_SUBKEY = 'PDFPresenter'
+const APP_NAME = 'PDF Presenter'
 
 /**
  * Makes this app the OS default handler for .pdf files. Real behavior

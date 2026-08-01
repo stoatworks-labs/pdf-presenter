@@ -1,4 +1,4 @@
-# AGENTS.md — bringing an LLM up to speed on PDF Presenter Lite
+# AGENTS.md — bringing an LLM up to speed on PDF Presenter
 
 Orientation for an AI assistant (or a new human) picking this project up cold. There is no
 `CLAUDE.md` here; this is the entry point.
@@ -15,6 +15,17 @@ Public repo, **v1.3.1**, and **field proven** — it has been run on real events
 
 It ships as **two builds from one codebase**: an Electron desktop app, and a hosted
 browser build with no backend at all.
+
+**The two builds have different names, deliberately.** The desktop app is **PDF
+Presenter**; the hosted build is **PDF Presenter Lite**, "lite" meaning exactly the
+capabilities a web page cannot have (§ the `BackendCapabilities` table). The repo, the
+npm package and the desktop app id are `pdf-presenter`; the Worker and its domain stay
+`pdf-presenter-lite`, as does the `companion-module-pdf-presenter-lite` repo — renaming
+either would break a live URL or an installed Companion config.
+
+The name is served from the backend as `PresenterApi.productName`, alongside
+`capabilities`, for the same reason everything else is: **a component must never sniff
+for Electron**. Never hardcode either name in `src/renderer/src/`.
 
 ## 2. The architectural rule
 

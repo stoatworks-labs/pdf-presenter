@@ -18,7 +18,7 @@ export interface OscSection {
 
 /** Everything the dispatcher/feedback-builders need to know about current
  * app state — a plain snapshot, not a live subscription, so callers can
- * read it from a ref without worrying about stale closures. pdf-presenter-lite
+ * read it from a ref without worrying about stale closures. pdf-presenter
  * has no notes concept by design, unlike presentation-commander-client. */
 export interface OscSnapshot {
   currentPage: number
@@ -202,7 +202,7 @@ export function allFeedback(s: OscSnapshot): OscMessage[] {
 
 /**
  * Dispatches one inbound OSC message to the app. Addresses this app can't
- * fulfill (notes — pdf-presenter-lite has none by design; media, since
+ * fulfill (notes — pdf-presenter has none by design; media, since
  * pdf.js has no embedded-video playback model) simply aren't implemented —
  * they fall through the switch's default case and are silently ignored,
  * not treated as an error.

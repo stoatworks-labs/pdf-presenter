@@ -70,6 +70,18 @@ export interface BackendCapabilities {
 }
 
 export interface PresenterApi {
+  /**
+   * What this build calls itself, for anywhere the UI names the product.
+   *
+   * The two backends carry different names: the desktop app is **PDF
+   * Presenter**, and the hosted, install-free build is **PDF Presenter Lite** —
+   * "lite" being exactly the sub-capability set {@link BackendCapabilities}
+   * already describes. It comes from the backend for the same reason
+   * everything else here does: the React UI is shared and must never sniff for
+   * Electron to work out which one it is running in.
+   */
+  productName: string
+
   capabilities: BackendCapabilities
 
   pdf: {

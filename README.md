@@ -1,4 +1,4 @@
-# PDF Presenter Lite
+# PDF Presenter
 
 > **AI-assisted project.** This codebase was created with [Claude](https://claude.com/claude-code)
 > (Anthropic), directed and reviewed by a human author — including architecture,
@@ -13,6 +13,14 @@ integrations. A stripped-down sibling of
 keeping only its proven pdf.js rendering pipeline and multi-window/display-picker
 pattern.
 
+It ships in two forms, from this one repo. **PDF Presenter** is the desktop app —
+the whole feature set, including OSC and the desktop integrations. **PDF Presenter
+Lite** is the hosted build at
+[pdf-presenter-lite.stoatworks-labs.com](https://pdf-presenter-lite.stoatworks-labs.com):
+the same presenter view in a browser tab with nothing to install, minus the parts a
+web page cannot do. The "lite" is that difference, and nothing else — the two share
+their entire UI.
+
 [![Watch it running — 38 seconds](docs/video-thumb.png)](https://www.youtube.com/watch?v=pKzqgFt-Tco)
 
 *A 38-second tour. Every frame is the real application presenting a real PDF, driven
@@ -26,22 +34,22 @@ over its own OSC control surface.*
 
 ## Download
 
-**[v1.3.1](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/tag/v1.3.1)** — prebuilt for macOS, Windows and Linux. Pick your platform:
+**[v1.3.1](https://github.com/stoatworks-labs/pdf-presenter/releases/tag/v1.3.1)** — prebuilt for macOS, Windows and Linux. Pick your platform:
 
 <details>
 <summary><b>macOS</b> — Universal (Apple Silicon + Intel), Apple Silicon, Intel</summary>
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Universal (Apple Silicon + Intel) · .dmg disk image | [`pdf-presenter-lite-1.3.1-universal.dmg`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-universal.dmg) | 215 MB |
-| Apple Silicon · .dmg disk image | [`pdf-presenter-lite-1.3.1-arm64.dmg`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-arm64.dmg) | 121 MB |
-| Intel · .dmg disk image | [`pdf-presenter-lite-1.3.1-x64.dmg`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-x64.dmg) | 128 MB |
-| Universal (Apple Silicon + Intel) · .pkg installer | [`pdf-presenter-lite-1.3.1-macos-universal.pkg`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-macos-universal.pkg) | 215 MB |
-| Apple Silicon · .pkg installer | [`pdf-presenter-lite-1.3.1-macos-arm64.pkg`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-macos-arm64.pkg) | 121 MB |
-| Intel · .pkg installer | [`pdf-presenter-lite-1.3.1-macos-x64.pkg`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-macos-x64.pkg) | 129 MB |
-| Universal (Apple Silicon + Intel) · .zip archive | [`PDF.Presenter.Lite-1.3.1-universal-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/PDF.Presenter.Lite-1.3.1-universal-mac.zip) | 215 MB |
-| Apple Silicon · .zip archive | [`PDF.Presenter.Lite-1.3.1-arm64-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/PDF.Presenter.Lite-1.3.1-arm64-mac.zip) | 121 MB |
-| Intel · .zip archive | [`PDF.Presenter.Lite-1.3.1-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/PDF.Presenter.Lite-1.3.1-mac.zip) | 128 MB |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`pdf-presenter-lite-1.3.1-universal.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-universal.dmg) | 215 MB |
+| Apple Silicon · .dmg disk image | [`pdf-presenter-lite-1.3.1-arm64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-arm64.dmg) | 121 MB |
+| Intel · .dmg disk image | [`pdf-presenter-lite-1.3.1-x64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-x64.dmg) | 128 MB |
+| Universal (Apple Silicon + Intel) · .pkg installer | [`pdf-presenter-lite-1.3.1-macos-universal.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-macos-universal.pkg) | 215 MB |
+| Apple Silicon · .pkg installer | [`pdf-presenter-lite-1.3.1-macos-arm64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-macos-arm64.pkg) | 121 MB |
+| Intel · .pkg installer | [`pdf-presenter-lite-1.3.1-macos-x64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-macos-x64.pkg) | 129 MB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`PDF.Presenter.Lite-1.3.1-universal-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/PDF.Presenter.Lite-1.3.1-universal-mac.zip) | 215 MB |
+| Apple Silicon · .zip archive | [`PDF.Presenter.Lite-1.3.1-arm64-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/PDF.Presenter.Lite-1.3.1-arm64-mac.zip) | 121 MB |
+| Intel · .zip archive | [`PDF.Presenter.Lite-1.3.1-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/PDF.Presenter.Lite-1.3.1-mac.zip) | 128 MB |
 
 </details>
 
@@ -50,12 +58,12 @@ over its own OSC control surface.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| x64 & ARM64 · .exe installer | [`pdf-presenter-lite-1.3.1-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-setup.exe) | 197 MB |
-| x64 · .exe installer | [`pdf-presenter-lite-1.3.1-x64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-x64-setup.exe) | 102 MB |
-| ARM64 · .exe installer | [`pdf-presenter-lite-1.3.1-arm64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-arm64-setup.exe) | 96 MB |
-| x64 & ARM64 · portable .exe | [`pdf-presenter-lite-1.3.1-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-portable.exe) | 197 MB |
-| x64 · portable .exe | [`pdf-presenter-lite-1.3.1-x64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-x64-portable.exe) | 101 MB |
-| ARM64 · portable .exe | [`pdf-presenter-lite-1.3.1-arm64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-arm64-portable.exe) | 96 MB |
+| x64 & ARM64 · .exe installer | [`pdf-presenter-lite-1.3.1-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-setup.exe) | 197 MB |
+| x64 · .exe installer | [`pdf-presenter-lite-1.3.1-x64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-x64-setup.exe) | 102 MB |
+| ARM64 · .exe installer | [`pdf-presenter-lite-1.3.1-arm64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-arm64-setup.exe) | 96 MB |
+| x64 & ARM64 · portable .exe | [`pdf-presenter-lite-1.3.1-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-portable.exe) | 197 MB |
+| x64 · portable .exe | [`pdf-presenter-lite-1.3.1-x64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-x64-portable.exe) | 101 MB |
+| ARM64 · portable .exe | [`pdf-presenter-lite-1.3.1-arm64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1-arm64-portable.exe) | 96 MB |
 
 </details>
 
@@ -64,18 +72,25 @@ over its own OSC control surface.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| x64 · .deb package (Debian/Ubuntu) | [`pdf-presenter-lite_1.3.1_amd64.deb`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite_1.3.1_amd64.deb) | 98 MB |
-| ARM64 · .deb package (Debian/Ubuntu) | [`pdf-presenter-lite_1.3.1_arm64.deb`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite_1.3.1_arm64.deb) | 93 MB |
-| x64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-lite-1.3.1.x86_64.rpm`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1.x86_64.rpm) | 84 MB |
-| ARM64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-lite-1.3.1.aarch64.rpm`](https://github.com/stoatworks-labs/pdf-presenter-lite/releases/download/v1.3.1/pdf-presenter-lite-1.3.1.aarch64.rpm) | 79 MB |
+| x64 · .deb package (Debian/Ubuntu) | [`pdf-presenter-lite_1.3.1_amd64.deb`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite_1.3.1_amd64.deb) | 98 MB |
+| ARM64 · .deb package (Debian/Ubuntu) | [`pdf-presenter-lite_1.3.1_arm64.deb`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite_1.3.1_arm64.deb) | 93 MB |
+| x64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-lite-1.3.1.x86_64.rpm`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1.x86_64.rpm) | 84 MB |
+| ARM64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-lite-1.3.1.aarch64.rpm`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.3.1/pdf-presenter-lite-1.3.1.aarch64.rpm) | 79 MB |
 
 </details>
 
-All builds, checksums and release notes: [github.com/stoatworks-labs/pdf-presenter-lite/releases](https://github.com/stoatworks-labs/pdf-presenter-lite/releases).
+All builds, checksums and release notes: [github.com/stoatworks-labs/pdf-presenter/releases](https://github.com/stoatworks-labs/pdf-presenter/releases).
 
 These builds are unsigned, so macOS and Windows each warn once on first launch — see [Unsigned builds — Gatekeeper, SmartScreen & Defender Firewall](#unsigned-builds--gatekeeper-smartscreen--defender-firewall) for the one-time fix.
 
 <!-- downloads:end -->
+
+> **v1.3.1 predates the rename.** It was released as *PDF Presenter Lite*, so its
+> files are named `pdf-presenter-lite-1.3.1-…` and it installs as
+> `PDF Presenter Lite.app` / `PDF Presenter Lite.exe`. Everything below describes
+> the app as it is now called; the next release carries the new name. The hosted
+> build keeps the old name for good — see
+> [Run it in a browser](#run-it-in-a-browser-with-nothing-installed--pdf-presenter-lite).
 
 ## What it does
 
@@ -100,8 +115,8 @@ These builds are unsigned, so macOS and Windows each warn once on first launch �
 - **Fullscreen Output window** — a second, chrome-free window showing just the
   current slide, for a projector or confidence monitor. Pick which connected
   display it opens on from a dropdown next to the toggle button. The two
-  windows carry distinct names in the window switcher — "PDF Presenter Lite —
-  Control" and "PDF Presenter Lite — Output (<display>)"
+  windows carry distinct names in the window switcher — "PDF Presenter —
+  Control" and "PDF Presenter — Output (<display>)"
 - **Screen blanking** — press `B` or `W` to cut the Output window to solid
   black or white without losing your place, mirroring PowerPoint's presenter
   shortcuts; press again to restore the slide
@@ -139,12 +154,16 @@ These builds are unsigned, so macOS and Windows each warn once on first launch �
   what actually happened, never a fake "done" when the real answer is
   "you still need to confirm it"
 
-## Run it in a browser, with nothing installed
+## Run it in a browser, with nothing installed — *PDF Presenter Lite*
 
 Everything above renders with pdf.js — the desktop app was never doing that part
 natively — so the presenter view works just as well as a **hosted web app** with
 no backend at all. Build it with `npm run static:build` and publish the result as
 static assets (a Cloudflare Worker, in this project's case).
+
+This build calls itself **PDF Presenter Lite**: the name is the capability
+difference in the table below, and it is the name the app shows in its own
+titlebar, so an operator can tell at a glance which one is on the screen.
 
 **Your PDF is never uploaded.** There is no server and no upload endpoint: the
 file is read by the page from your own disk, and the deck, the thumbnails and the
@@ -305,12 +324,12 @@ fine; the OS just can't identify the publisher, so it warns you the first time.
 
 - **macOS** — *"cannot be opened because the developer cannot be verified"*.
   Right-click the app → **Open** → **Open**, or clear the flag:
-  `xattr -dr com.apple.quarantine "/Applications/PDF Presenter Lite.app"`
+  `xattr -dr com.apple.quarantine "/Applications/PDF Presenter.app"`
 - **Windows** — SmartScreen shows *"Windows protected your PC"* →
   **More info** → **Run anyway**.
-- **Windows Defender Firewall** — first launch pops *"Allow PDF Presenter Lite to
+- **Windows Defender Firewall** — first launch pops *"Allow PDF Presenter to
   communicate on these networks"*. Tick **Private** (and **Domain** on a managed
-  network) — PDF Presenter Lite needs it to receive OSC from Bitfocus Companion. Deny it
+  network) — PDF Presenter needs it to receive OSC from Bitfocus Companion. Deny it
   and Companion buttons will appear to work but nothing will happen.
 - **Linux** — no signing gate.
 

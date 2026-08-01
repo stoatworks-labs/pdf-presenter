@@ -183,6 +183,9 @@ const noop = (): Unsubscribe => (): void => {}
 /* ----------------------------------------------------------------- The API */
 
 export const browserApi: PresenterApi = {
+  // "Lite" is the hosted build: same presenter, minus everything below.
+  productName: 'PDF Presenter Lite',
+
   capabilities: {
     osc: false,
     fileControl: false,

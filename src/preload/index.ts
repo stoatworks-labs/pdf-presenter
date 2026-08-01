@@ -13,6 +13,8 @@ import type {
 } from '../shared/api'
 
 const api: PresenterApi = {
+  productName: 'PDF Presenter',
+
   // The desktop app is the full-capability backend: it owns a UDP socket, the
   // filesystem, and the desktop itself.
   capabilities: {

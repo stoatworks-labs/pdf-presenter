@@ -12,9 +12,9 @@ bug here and it needs applying to the others — that is the accepted trade.
 
 | Platform | Directory |
 | --- | --- |
-| macOS | `~/Library/Logs/pdf-presenter-lite/` |
-| Linux | `$XDG_STATE_HOME/pdf-presenter-lite/logs/` (default `~/.local/state/...`) |
-| Windows | `%LOCALAPPDATA%\pdf-presenter-lite\logs\` |
+| macOS | `~/Library/Logs/pdf-presenter/` |
+| Linux | `$XDG_STATE_HOME/pdf-presenter/logs/` (default `~/.local/state/...`) |
+| Windows | `%LOCALAPPDATA%\pdf-presenter\logs\` |
 
 `PDF_PRESENTER_LOG_DIR` overrides it. The path is printed on the first line of every
 run, so nobody has to remember the table.
@@ -24,7 +24,7 @@ and the point of a crash report is to outlive the crash.
 
 ## 1. The human log
 
-`pdf-presenter-lite.YYYY-MM-DD.log`, rotated daily, seven kept, no colour escapes.
+`pdf-presenter.YYYY-MM-DD.log`, rotated daily, seven kept, no colour escapes.
 
 Verbosity comes from `PDF_PRESENTER_LOG`, default `info`.
 
@@ -56,10 +56,10 @@ fault the lines that explain it may not have reached disk yet.
 ## 3. The diagnostics bundle
 
 ```bash
-pdf-presenter-lite --collect-diagnostics
+pdf-presenter --collect-diagnostics
 ```
 
-Writes `pdf-presenter-lite-diagnostics-<timestamp>.json` and prints its path. One file, so
+Writes `pdf-presenter-diagnostics-<timestamp>.json` and prints its path. One file, so
 "send me your diagnostics" is one instruction rather than a conversation about
 which of six files were wanted. It holds the identity and config blocks, the
 last three log files (tail-capped at 5000 lines), the five most recent crash

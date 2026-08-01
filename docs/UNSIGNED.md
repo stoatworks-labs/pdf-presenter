@@ -1,4 +1,4 @@
-# Running unsigned PDF Presenter Lite builds
+# Running unsigned PDF Presenter builds
 
 Everything this project releases is built and published unsigned. This page explains
 what each operating system will say, exactly how to get past it, and how to sign the
@@ -33,7 +33,7 @@ double-click won't offer this — it has to be the context menu.
 **2. Clear the quarantine flag** (scriptable, good for deployment)
 
 ```sh
-xattr -dr com.apple.quarantine "/Applications/PDF Presenter Lite.app"
+xattr -dr com.apple.quarantine "/Applications/PDF Presenter.app"
 ```
 
 **3. Approve it after the fact**
@@ -82,13 +82,13 @@ it keeps happening.
 
 ## Windows — Defender Firewall
 
-PDF Presenter Lite listens on the network, so the first time it starts Windows shows:
+PDF Presenter listens on the network, so the first time it starts Windows shows:
 
-> **Windows Defender Firewall has blocked some features of PDF Presenter Lite**
+> **Windows Defender Firewall has blocked some features of PDF Presenter**
 > Allow it to communicate on these networks: ☐ Private ☐ Public
 
 Tick **Private networks** — and **Domain networks** too if the machine is on a managed
-domain. PDF Presenter Lite needs this to receive OSC from Bitfocus Companion.
+domain. PDF Presenter needs this to receive OSC from Bitfocus Companion.
 
 If you deny it (or the prompt appears behind another window and times out), Companion buttons will appear to work but nothing will happen
 
@@ -99,18 +99,18 @@ networks like conference or hotel Wi-Fi.
 
 The prompt does not come back. Fix it in **Windows Security → Firewall & network
 protection → Allow an app through firewall → Change settings**, find the entry, tick
-**Private**. If PDF Presenter Lite isn't listed, **Allow another app…** → **Browse** to the `.exe`.
+**Private**. If PDF Presenter isn't listed, **Allow another app…** → **Browse** to the `.exe`.
 
 Or from an elevated PowerShell:
 
 ```powershell
-New-NetFirewallRule -DisplayName "PDF Presenter Lite" -Direction Inbound -Program "C:\Path\To\PDF Presenter Lite.exe" -Action Allow -Profile Private,Domain
+New-NetFirewallRule -DisplayName "PDF Presenter" -Direction Inbound -Program "C:\Path\To\PDF Presenter.exe" -Action Allow -Profile Private,Domain
 ```
 
 To remove a bad rule and get the prompt back on next launch:
 
 ```powershell
-Get-NetFirewallRule -DisplayName "*PDF Presenter Lite*" | Remove-NetFirewallRule
+Get-NetFirewallRule -DisplayName "*PDF Presenter*" | Remove-NetFirewallRule
 ```
 
 ### macOS and Linux firewalls
@@ -125,7 +125,7 @@ if you run a firewall, open the ports yourself (`ufw allow <port>/tcp`).
 No signing gate. Make the binary executable if you took the tarball:
 
 ```sh
-chmod +x ./pdf-presenter-lite
+chmod +x ./pdf-presenter
 ```
 
 The `.deb` and `.rpm` packages are unsigned too, so your package manager may object:
@@ -139,14 +139,14 @@ An ad-hoc signature stops the OS re-prompting on **your own machine**. It is **n
 notarization and will do nothing for anyone else:
 
 ```sh
-codesign --force --deep --sign - "/Applications/PDF Presenter Lite.app"
+codesign --force --deep --sign - "/Applications/PDF Presenter.app"
 ```
 
 Verify it took:
 
 ```sh
-codesign -dv --verbose=4 "/Applications/PDF Presenter Lite.app"
-spctl -a -vv "/Applications/PDF Presenter Lite.app"   # still reports "rejected" — ad-hoc is not notarization
+codesign -dv --verbose=4 "/Applications/PDF Presenter.app"
+spctl -a -vv "/Applications/PDF Presenter.app"   # still reports "rejected" — ad-hoc is not notarization
 ```
 
 ### macOS — real signing and notarization

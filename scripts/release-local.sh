@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# release-local.sh — cut a full PDF Presenter Lite release from this Mac.
+# release-local.sh — cut a full PDF Presenter release from this Mac.
 #
 # GitHub Actions minutes are exhausted, so releases are built here.
 # electron-builder cross-builds all three platforms from macOS; the target list
@@ -12,7 +12,7 @@
 #   scripts/release-local.sh --upload         tag and publish the GitHub release
 set -euo pipefail
 
-RE_NAME="PDF Presenter Lite"
-RE_SLUG="pdf-presenter-lite"
+RE_NAME="PDF Presenter"
+RE_SLUG="pdf-presenter"
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/release-electron.sh"

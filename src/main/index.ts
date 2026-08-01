@@ -17,9 +17,9 @@ import { installElectronDiagnostics } from './diag/electron.js'
 // renderer and GPU hooks go in too - neither raises anything the main
 // process's uncaughtException handler can see.
 initDiag({
-  app: 'pdf-presenter-lite',
+  app: 'pdf-presenter',
   envPrefix: 'PDF_PRESENTER',
-  version: '1.3.0',
+  version: '1.3.1',
   cwd: app_diag_cwd()
 })
 installElectronDiagnostics()
@@ -41,8 +41,8 @@ interface DisplayInfo {
 
 /** Distinct, self-describing window names — the presenter's console and the
  *  audience-facing output are two very different things to pick out of a
- *  window switcher, and both used to be called "PDF Presenter Lite" (#9). */
-const CONTROL_WINDOW_TITLE = 'PDF Presenter Lite — Control'
+ *  window switcher, and both used to carry the bare app name (#9). */
+const CONTROL_WINDOW_TITLE = 'PDF Presenter — Control'
 
 let mainWindow: BrowserWindow | null = null
 let outputWindow: BrowserWindow | null = null
@@ -177,7 +177,7 @@ function openOutput(displayId?: number): void {
   // Naming it after the display it is actually on, because on a multi-screen
   // rig "which output is this?" is the question the window manager is being
   // asked in the first place.
-  nameWindow(win, `PDF Presenter Lite — Output (${displayLabel(target, displays.indexOf(target))})`)
+  nameWindow(win, `PDF Presenter — Output (${displayLabel(target, displays.indexOf(target))})`)
 
   // Setting fullscreen at construction time can leave the window invisible
   // to the OS window server on macOS; show it plain first, then transition.
@@ -231,7 +231,7 @@ function openOutput(displayId?: number): void {
 }
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.allansargeant.pdf-presenter-lite')
+  electronApp.setAppUserModelId('com.allansargeant.pdf-presenter')
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
