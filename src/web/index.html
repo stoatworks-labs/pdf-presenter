@@ -44,5 +44,11 @@
     -->
     <script src="/about-data.js" defer></script>
     <script src="/about.js" defer></script>
+    <!--
+      The support footer is NOT loaded here. This same document is what the
+      fullscreen Output window opens (?mode=output), so a tag in the markup
+      would put a funding footer on a projected show output. main.tsx appends
+      it in presenter mode only — see the comment there.
+    -->
   </body>
 </html>

@@ -54,6 +54,27 @@ body {
   overflow: hidden;
 }
 
+/*
+ * Hosted presenter build only — set by src/web/main.tsx, never by the Electron
+ * renderer and never on the Output window, so the desktop app and the projected
+ * output both keep the viewport lock above and cannot be scrolled off their UI.
+ *
+ * The support footer is appended after #root, where `height: 100%` plus
+ * `overflow: hidden` leaves it unreachable. Releasing the height here is the
+ * whole fix: `.app-shell` is already sized in viewport units, so it still fills
+ * the screen exactly and does not depend on this percentage chain the way the
+ * apps in pixel-peeker/src/styles.css did.
+ */
+html[data-hosted],
+html[data-hosted] body,
+html[data-hosted] #root {
+  height: auto;
+}
+
+html[data-hosted] body {
+  overflow: visible;
+}
+
 button,
 select,
 textarea,

@@ -37,6 +37,26 @@ if (isOutput) {
     event.preventDefault()
     sendKeyAction(action)
   })
+} else {
+  // The support footer, presenter UI only. It is appended from here rather than
+  // written as a tag in index.html because the Output window loads that same
+  // document, and a funding footer belongs nowhere near a projected show.
+  //
+  // A dynamically inserted CLASSIC script still sets document.currentScript
+  // while it runs, which is where the footer reads this config from — precisely
+  // what a module script cannot do. No `defer`: that is ignored on an inserted
+  // script, and the footer already waits for readyState itself.
+  //
+  // data-hosted unlocks the viewport for the footer; base.css keeps the desktop
+  // renderer locked because the Electron build never sets it.
+  document.documentElement.dataset.hosted = ''
+  const footer = document.createElement('script')
+  footer.src = '/support-footer.js'
+  footer.dataset.app = 'PDF Presenter Lite'
+  footer.dataset.repo = 'https://github.com/stoatworks-labs/pdf-presenter'
+  footer.dataset.note =
+    'It runs entirely in your browser — the PDF you open is never uploaded.'
+  document.body.appendChild(footer)
 }
 
 createRoot(document.getElementById('root')!).render(
