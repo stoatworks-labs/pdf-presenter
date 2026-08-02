@@ -292,6 +292,13 @@ function App(): React.JSX.Element {
           />
           <SetDefaultPdfAppControl />
           <DiagnosticsPanel />
+          {/* Opens the shared About dialog — see public/about.js, which delegates
+              this attribute from the document, so nothing needs importing here.
+              One dialog for both builds: the Electron renderer is a web page
+              too, and the main process sends target=_blank to the browser. */}
+          <button className="transport-btn" type="button" data-stoatworks-about>
+            About
+          </button>
           <button className="transport-btn" onClick={openPdf}>
             {fileName ? 'Open Different PDF…' : 'Open PDF…'}
           </button>
