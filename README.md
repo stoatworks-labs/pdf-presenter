@@ -41,15 +41,15 @@ over its own OSC control surface.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Universal (Apple Silicon + Intel) · .dmg disk image | [`pdf-presenter-1.4.0-universal.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-1.4.0-universal.dmg) | 215 MB |
-| Apple Silicon · .dmg disk image | [`pdf-presenter-1.4.0-arm64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-1.4.0-arm64.dmg) | 122 MB |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`pdf-presenter-1.4.0-universal.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-1.4.0-universal.dmg) | 214 MB |
+| Apple Silicon · .dmg disk image | [`pdf-presenter-1.4.0-arm64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-1.4.0-arm64.dmg) | 121 MB |
 | Intel · .dmg disk image | [`pdf-presenter-1.4.0-x64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-1.4.0-x64.dmg) | 129 MB |
-| Universal (Apple Silicon + Intel) · .pkg installer | [`pdf-presenter-lite-1.4.0-macos-universal.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-lite-1.4.0-macos-universal.pkg) | 216 MB |
-| Apple Silicon · .pkg installer | [`pdf-presenter-lite-1.4.0-macos-arm64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-lite-1.4.0-macos-arm64.pkg) | 122 MB |
+| Universal (Apple Silicon + Intel) · .pkg installer | [`pdf-presenter-lite-1.4.0-macos-universal.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-lite-1.4.0-macos-universal.pkg) | 215 MB |
+| Apple Silicon · .pkg installer | [`pdf-presenter-lite-1.4.0-macos-arm64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-lite-1.4.0-macos-arm64.pkg) | 121 MB |
 | Intel · .pkg installer | [`pdf-presenter-lite-1.4.0-macos-x64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/pdf-presenter-lite-1.4.0-macos-x64.pkg) | 129 MB |
-| Universal (Apple Silicon + Intel) · .zip archive | [`PDF.Presenter-1.4.0-universal-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/PDF.Presenter-1.4.0-universal-mac.zip) | 209 MB |
-| Apple Silicon · .zip archive | [`PDF.Presenter-1.4.0-arm64-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/PDF.Presenter-1.4.0-arm64-mac.zip) | 118 MB |
-| Intel · .zip archive | [`PDF.Presenter-1.4.0-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/PDF.Presenter-1.4.0-mac.zip) | 125 MB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`PDF.Presenter-1.4.0-universal-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/PDF.Presenter-1.4.0-universal-mac.zip) | 215 MB |
+| Apple Silicon · .zip archive | [`PDF.Presenter-1.4.0-arm64-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/PDF.Presenter-1.4.0-arm64-mac.zip) | 121 MB |
+| Intel · .zip archive | [`PDF.Presenter-1.4.0-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.4.0/PDF.Presenter-1.4.0-mac.zip) | 129 MB |
 
 </details>
 
@@ -81,7 +81,7 @@ over its own OSC control surface.*
 
 All builds, checksums and release notes: [github.com/stoatworks-labs/pdf-presenter/releases](https://github.com/stoatworks-labs/pdf-presenter/releases).
 
-The Windows builds are unsigned, so SmartScreen warns once — see [Unsigned builds — Gatekeeper, SmartScreen & Defender Firewall](#unsigned-builds--gatekeeper-smartscreen--defender-firewall) for the one-time click-through.
+The Windows builds are unsigned, so SmartScreen warns once — see [Windows SmartScreen & Defender Firewall](#windows-smartscreen--defender-firewall) for the one-time click-through.
 
 <!-- downloads:end -->
 
