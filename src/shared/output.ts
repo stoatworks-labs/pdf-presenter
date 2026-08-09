@@ -1,3 +1,5 @@
+import type { TransitionSettings } from './transitions'
+
 /** Blanks the Output window to a solid color instead of the current slide —
  * matches PowerPoint's "B"/"W" presenter shortcuts, for hiding content
  * without losing your place. */
@@ -17,6 +19,10 @@ export interface OutputState {
    * position is pushed separately (see LaserPosition below), since it
    * updates far more often than the rest of this state. */
   laserPointerEnabled: boolean
+  /** How the Output window moves between slides. Pushed with the rest of the
+   * state rather than configured in the Output window itself, so the
+   * presenter view stays the single place any of this is set. */
+  transition: TransitionSettings
 }
 
 /** Normalized (0-100) position over the current slide's own box — lines up

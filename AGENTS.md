@@ -59,6 +59,16 @@ a capability instead.
   `presentation-commander-client`** — that is a debt marker, not a coincidence. Fix a
   rendering bug here and check whether the other repo needs the same fix.
 
+  The same now goes for the transition code: `shared/transitions.ts`,
+  `renderer/src/transitions.ts`, `renderer/src/transitionStorage.ts` and
+  `components/TransitionControl.tsx` are shared with that repo by copy, differing only in a
+  doc comment, the localStorage key, and the fact that Commander gates transitions to PDF
+  sources. Change one, change both.
+
+  `transitions.ts` depends on `pdf.ts`'s double-buffering: the incoming layer is put into
+  its start state *before* the render is awaited, which is only safe because the visible
+  canvas keeps showing the old page until the render finishes.
+
 ## 4. The fullscreen click cannot be removed
 
 In the browser build the Output window opens as a normal pop-up, not fullscreen, and shows a

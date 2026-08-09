@@ -131,6 +131,41 @@
   white-space: nowrap;
 }
 
+.transition-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+.transition-label {
+  white-space: nowrap;
+}
+
+.transition-select {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--text-1);
+  padding: 3px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.transition-duration {
+  width: 58px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--text-1);
+  padding: 3px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.transition-unit {
+  white-space: nowrap;
+}
+
 .osc-settings {
   position: absolute;
   top: 100%;
@@ -431,6 +466,28 @@
     0 0 8px 3px rgba(255, 59, 48, 0.9),
     0 0 16px 6px rgba(255, 59, 48, 0.5);
   pointer-events: none;
+  /* Above the transition layers — the pointer belongs to the presenter, not
+     to whichever slide happens to be on top mid-transition. */
+  z-index: 3;
+}
+
+/* Created and destroyed by transitions.ts, never rendered by React: a pixel
+   copy of the slide being left behind, laid exactly over the live canvas.
+   Sized in px by the script rather than 100%, so a deck with mixed page sizes
+   doesn't stretch the outgoing slide to the incoming one's shape. */
+.slide-transition-outgoing {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.slide-transition-dip {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
 }
 
 .output-empty {

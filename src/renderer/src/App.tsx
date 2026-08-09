@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PDFDocumentProxy } from 'pdfjs-dist'
 import { loadPdf, getSections, renderPageContain } from './pdf'
 import type { ScreenBlank } from '../../shared/output'
+import type { TransitionSettings } from '../../shared/transitions'
+import { loadTransitionSettings, saveTransitionSettings } from './transitionStorage'
 import { controlKeyAction } from '../../shared/keys'
 import type { ControlKeyAction } from '../../shared/keys'
 import { isModalOpen } from './components/modalState'
@@ -13,6 +15,7 @@ import OscControl from './components/OscControl'
 import DiagnosticsPanel from './components/DiagnosticsPanel'
 import SetDefaultPdfAppControl from './components/SetDefaultPdfAppControl'
 import AutoAdvanceControl from './components/AutoAdvanceControl'
+import TransitionControl from './components/TransitionControl'
 import { handleOscAction, allFeedback } from './osc/protocol'
 import type { OscSnapshot, OscSection } from './osc/protocol'
 
@@ -36,6 +39,9 @@ function App(): React.JSX.Element {
   const [autoAdvanceEnabled, setAutoAdvanceEnabled] = useState(false)
   const [autoAdvanceIntervalSec, setAutoAdvanceIntervalSec] = useState(5)
   const [autoAdvancePaused, setAutoAdvancePaused] = useState(false)
+  // Restored from the last session rather than reset to Cut on every launch —
+  // see transitionStorage.ts.
+  const [transition, setTransitionState] = useState<TransitionSettings>(loadTransitionSettings)
   const oscSnapshotRef = useRef<OscSnapshot>({
     currentPage: 1,
     totalPages: 0,
@@ -50,7 +56,8 @@ function App(): React.JSX.Element {
     sections: [],
     laserPointerEnabled: false,
     autoAdvanceEnabled: false,
-    autoAdvancePaused: false
+    autoAdvancePaused: false,
+    transition: loadTransitionSettings()
   })
 
   const totalPagesRef = useRef(0)
@@ -70,6 +77,16 @@ function App(): React.JSX.Element {
     return window.api.output.onOpenChanged(setOutputOpen)
   }, [])
 
+  // Patch rather than replace, so an OSC message that sets only the duration
+  // leaves the effect and direction alone.
+  const applyTransition = useCallback((patch: Partial<TransitionSettings>): void => {
+    setTransitionState((current) => ({ ...current, ...patch }))
+  }, [])
+
+  useEffect(() => {
+    saveTransitionSettings(transition)
+  }, [transition])
+
   // Keep the fullscreen Output window in sync with whatever the presenter is
   // currently looking at, whenever it's open.
   useEffect(() => {
@@ -79,9 +96,10 @@ function App(): React.JSX.Element {
       currentPage,
       screenBlank,
       hideCursor,
-      laserPointerEnabled
+      laserPointerEnabled,
+      transition
     })
-  }, [outputOpen, pdfData, currentPage, screenBlank, hideCursor, laserPointerEnabled])
+  }, [outputOpen, pdfData, currentPage, screenBlank, hideCursor, laserPointerEnabled, transition])
 
   useEffect(() => {
     window.api.osc.isRunning().then(setOscRunning)
@@ -125,7 +143,8 @@ function App(): React.JSX.Element {
       sections,
       laserPointerEnabled,
       autoAdvanceEnabled,
-      autoAdvancePaused
+      autoAdvancePaused,
+      transition
     }
     oscSnapshotRef.current = snapshot
     if (oscRunning && oscFeedbacksEnabled) {
@@ -146,6 +165,7 @@ function App(): React.JSX.Element {
     laserPointerEnabled,
     autoAdvanceEnabled,
     autoAdvancePaused,
+    transition,
     oscRunning
   ])
 
@@ -181,6 +201,7 @@ function App(): React.JSX.Element {
             .catch((err) => console.error('Failed to render wallpaper frame', err))
         },
         setAutoAdvancePaused,
+        setTransition: applyTransition,
         setActionsEnabled: setOscActionsEnabled,
         setFeedbacksEnabled: setOscFeedbacksEnabled,
         refreshFeedback: () => {
@@ -206,7 +227,7 @@ function App(): React.JSX.Element {
         }
       })
     })
-  }, [])
+  }, [applyTransition])
 
   // The single place a transport keypress turns into a state change,
   // whichever window it arrived at. Only functional updaters and refs, so the
@@ -276,6 +297,7 @@ function App(): React.JSX.Element {
             onIntervalChange={setAutoAdvanceIntervalSec}
             onPausedChange={setAutoAdvancePaused}
           />
+          <TransitionControl settings={transition} onChange={setTransitionState} />
           <OscControl
             filesEnabled={filesEnabled}
             filesFolderFullPath={filesFolderFullPath}

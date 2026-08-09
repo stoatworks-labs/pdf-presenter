@@ -139,6 +139,15 @@ macOS builds are signed and notarised and open normally. The Windows builds are 
   `/pdfpresenter/slideshow/setwallpaper` renders the current slide and
   sets it as the desktop wallpaper on every connected monitor — macOS and
   Windows are fully covered, Linux is GNOME-only
+- **Slide transitions** — one global transition for the whole deck (there is
+  no per-slide setting: a PDF has nowhere to store one, and a presenter picks
+  a look once). Cut, fade, dip to black, dip to white, and push, wipe, cover
+  and uncover from any of the four sides or four corners, plus zoom. The
+  duration is global too, in milliseconds. **Only the Output window
+  transitions** — the presenter's Now/Next panes always cut, so the operator
+  is never looking at an animation instead of the truth. Settable remotely
+  with `/pdfpresenter/slideshow/transition/seteffect`, `/setdirection` and
+  `/setduration`, and reported back on `/pdfpresenter/slideshow/transition*`
 - **Timed auto-advance** — an optional "advance every N seconds" mode
   (stops at the last slide rather than looping), with its own play/pause
   control next to the OSC settings — `/pdfpresenter/slideshow/pause` and
