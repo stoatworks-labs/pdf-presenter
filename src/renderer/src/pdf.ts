@@ -18,6 +18,7 @@ export function loadPdf(base64: string): Promise<PDFDocumentProxy> {
 const activeRenders = new WeakMap<HTMLCanvasElement, RenderTask>()
 const renderQueues = new WeakMap<HTMLCanvasElement, Promise<void>>()
 const renderGenerations = new WeakMap<HTMLCanvasElement, number>()
+const bufferCanvases = new WeakMap<HTMLCanvasElement, HTMLCanvasElement>()
 
 // Callers (SlideViewer's Now/Next canvases, ProgramOut) kick off renders from React
 // effects without awaiting the previous call, so two renderAtScale calls for the same
@@ -57,17 +58,32 @@ async function renderAtScaleNow(
   const page = await doc.getPage(pageNumber)
   const viewport = page.getViewport({ scale })
 
-  canvas.width = viewport.width
-  canvas.height = viewport.height
-  const context = canvas.getContext('2d')
-  if (!context) return
+  // A zero-area viewport (window not laid out yet) has nothing to draw, and a
+  // 0×0 canvas is an InvalidStateError as a drawImage source.
+  if (viewport.width < 1 || viewport.height < 1) return
+
+  // pdf.js paints asynchronously, and its first act is to flood the page box with
+  // white — while setting the visible canvas's width clears it immediately. Rendered
+  // straight to the visible canvas, every page change is therefore a blank-then-white
+  // flash before the content lands (issue #28). So the render goes to an offscreen
+  // buffer and the visible canvas keeps showing the old slide until the new one is
+  // finished, when it's copied across in a single synchronous drawImage.
+  let buffer = bufferCanvases.get(canvas)
+  if (!buffer) {
+    buffer = document.createElement('canvas')
+    bufferCanvases.set(canvas, buffer)
+  }
+  buffer.width = viewport.width
+  buffer.height = viewport.height
+  const bufferContext = buffer.getContext('2d')
+  if (!bufferContext) return
   // Chromium's canvas.width/height setters are documented to implicitly reset the 2D
   // context transform, but some versions skip that reset when the new size numerically
   // matches the current size — leaving pdf.js's previous transform in place and
   // compounding with the next render's PDF-to-canvas flip into a 180° rotation.
-  context.resetTransform()
+  bufferContext.resetTransform()
 
-  const task = page.render({ canvasContext: context, viewport })
+  const task = page.render({ canvas: buffer, canvasContext: bufferContext, viewport })
   activeRenders.set(canvas, task)
   try {
     await task.promise
@@ -77,6 +93,13 @@ async function renderAtScaleNow(
   } finally {
     if (activeRenders.get(canvas) === task) activeRenders.delete(canvas)
   }
+
+  canvas.width = viewport.width
+  canvas.height = viewport.height
+  const context = canvas.getContext('2d')
+  if (!context) return
+  context.resetTransform()
+  context.drawImage(buffer, 0, 0)
 }
 
 export async function renderPageToCanvas(
@@ -150,7 +173,12 @@ export async function getPageLinks(
       if (!Array.isArray(destArray) || !destArray[0]) continue
 
       const targetPage = (await doc.getPageIndex(destArray[0])) + 1
-      const [vx1, vy1, vx2, vy2] = viewport.convertToViewportRectangle(annotation.rect)
+      // convertToViewportRectangle was removed in pdf.js 6; converting the
+      // rect's two corners is the same computation (and still accounts for
+      // page rotation).
+      const [rx1, ry1, rx2, ry2] = annotation.rect as [number, number, number, number]
+      const [vx1, vy1] = viewport.convertToViewportPoint(rx1, ry1)
+      const [vx2, vy2] = viewport.convertToViewportPoint(rx2, ry2)
       const x = Math.min(vx1, vx2)
       const y = Math.min(vy1, vy2)
 
