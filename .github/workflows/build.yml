@@ -1,0 +1,51 @@
+name: build
+
+# The check this repo did not have, and the absence of which is why main broke.
+#
+# Four toolchain majors were merged by Dependabot with nothing to object to
+# them, and typecheck, lint and a clean install were all dead on main for a
+# day before anyone looked. Every one of those failures is caught by the steps
+# below in about a minute.
+#
+# `npm ci` runs WITHOUT --legacy-peer-deps on purpose. That flag is what lets a
+# vite/electron-vite peer conflict install anyway and go unnoticed; here the
+# conflict is meant to be fatal. If a future bump needs the flag to install,
+# that is the signal to pin the bump back, not to add the flag.
+#
+# Deliberately does not run lint. Lint currently reports 421 pre-existing
+# problems (16 explicit-function-return-type errors, 405 prettier warnings)
+# that accumulated over the period it was crashing on startup. Gating on it
+# before that backlog is cleared would just mean a permanently red check.
+
+on:
+  push:
+    branches: ['**']
+    tags-ignore: ['**']
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # 22, not the 20 release.yml used to pin: electron and @electron/get
+      # declare >=22.12.0 and pdfjs-dist >=22.13.0. npm does not enforce
+      # engines by default, so node 20 installs and then fails somewhere less
+      # obvious.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install (peer conflicts are fatal)
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build (electron-vite)
+        run: npx electron-vite build
+
+      - name: Build (static web)
+        run: npm run static:build
