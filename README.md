@@ -23,7 +23,7 @@ their entire UI.
 
 [![Watch it running — 48 seconds](docs/video-thumb.png)](https://www.youtube.com/watch?v=iNfjQ8ZmH-M)
 
-*A 38-second tour. Every frame is the real application presenting a real PDF, driven
+*A 48-second tour. Every frame is the real application presenting a real PDF, driven
 over its own OSC control surface.*
 
 ![Presenter view: Now/Next preview with a clickable slide thumbnail strip below](docs/screenshot.png)
