@@ -21,7 +21,7 @@ the same presenter view in a browser tab with nothing to install, minus the part
 web page cannot do. The "lite" is that difference, and nothing else — the two share
 their entire UI.
 
-[![Watch it running — 38 seconds](docs/video-thumb.png)](https://www.youtube.com/watch?v=pKzqgFt-Tco)
+[![Watch it running — 48 seconds](docs/video-thumb.png)](https://www.youtube.com/watch?v=iNfjQ8ZmH-M)
 
 *A 38-second tour. Every frame is the real application presenting a real PDF, driven
 over its own OSC control surface.*
