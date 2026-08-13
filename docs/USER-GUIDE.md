@@ -4,9 +4,9 @@ PDF Presenter is **a minimal, PDF-only presenter**: a Now/Next presenter view wi
 clickable thumbnails, and a chrome-free fullscreen Output window on a second display. It renders
 locally with pdf.js and integrates with nothing.
 
-> **Status: field proven** — released and run on real events. The binaries are **not
-> code-signed**, so the first launch shows a Gatekeeper or SmartScreen warning; see
-> [UNSIGNED.md](UNSIGNED.md).
+> **Status: field proven** — released and run on real events. macOS builds are **signed and
+> notarised** and open normally. The **Windows** builds are unsigned, so SmartScreen warns
+> once; see [UNSIGNED.md](UNSIGNED.md).
 
 There are **two builds**, and it matters which one you are on — see
 [Desktop or browser](#desktop-or-browser).
@@ -65,6 +65,53 @@ An optional "advance every N seconds" mode. **It stops at the last slide rather 
 
 ---
 
+## Slide transitions
+
+One transition, chosen once, applied to every page change. Set it in the presenter view;
+it is remembered after a restart.
+
+**It is deliberately global, not per-slide.** A PDF carries no transition metadata, so there
+is nowhere to store a per-slide choice even if the app wanted to offer one.
+
+| Effect | What happens |
+|---|---|
+| **Cut** | No transition — the page changes on the next frame. The default. |
+| **Fade** | The new slide fades up over the old one. |
+| **Dip to black** | Fade down to black, swap, fade back up. |
+| **Dip to white** | The same, through white. |
+| **Push** | Both slides travel; the new one shoves the old one off-screen. |
+| **Wipe** | Both slides stay put; the new one is revealed under a moving edge. |
+| **Cover** | The old slide stays put; the new one slides in on top of it. |
+| **Uncover** | The new slide stays put; the old one slides away to reveal it. |
+| **Zoom** | The new slide scales up from slightly small while fading in. |
+
+**Push, wipe, cover and uncover** take a direction — four sides and four corners. The picker
+is hidden for the other five, which do not read it, but your choice is kept so switching back
+restores it.
+
+> Direction is named for **where the new slide comes from**, so "From left" always means
+> movement to the right, whichever of the four effects you are on. Uncover is the one to think
+> about for a second: the new slide doesn't move, so "From left" is the *old* slide leaving to
+> the right.
+
+**Duration** is global too, in milliseconds — 500 by default, and held between 50 and 5000.
+For the two dips it covers **both halves**, down and back up. Below 50 ms every effect is a
+cut, which `Cut` already does; above 5000 a transition stops being a transition and becomes a
+wait.
+
+**Only the Output window transitions.** The presenter's Now and Next panes always cut, so the
+operator is never watching an animation instead of the truth.
+
+### Page changes no longer flash
+
+Fixed in 1.5.0, and worth knowing if you run dark decks: every page change used to blink
+blank-then-white for a frame, because setting the output canvas's size clears it and pdf.js
+floods the canvas white before painting. Pages now render to an offscreen buffer and the
+visible canvas keeps the old slide until the new one is complete. **A `Cut` is now a genuine
+cut**, with no white frame — on any deck, at any duration, whether or not you use transitions.
+
+---
+
 ## Desktop or browser
 
 Everything renders with pdf.js — the desktop app was never doing that part natively — so the
@@ -112,14 +159,19 @@ yourself. Either way the click is the same.
 ## Remote control (desktop only)
 
 A UDP OSC address space at `/pdfpresenter/...` covering slide navigation, black/white, Output
-open/close, and system enable/disable. Plain UDP rather than a Windows COM add-in, so it works on
-every platform the app ships for.
+open/close, the slide transition, and system enable/disable. Plain UDP rather than a Windows COM
+add-in, so it works on every platform the app ships for.
 
 A [Companion module](https://github.com/stoatworks-labs/companion-module-pdf-presenter-lite)
 ships alongside for driving it from a Stream Deck.
 
-Three OSC features worth knowing:
+Four OSC features worth knowing:
 
+- **The transition** — `/pdfpresenter/slideshow/transition/seteffect`, `/setdirection` and
+  `/setduration` change the look mid-show, and the current setting is reported back on
+  `/pdfpresenter/slideshow/transition*`. **An effect or direction name it doesn't recognise is
+  ignored on purpose** — a typo on a Companion button must not change the look of a live show.
+  A duration outside 50–5000 ms is clamped rather than refused.
 - **Watched folder** — off by default. Lets OSC open a specific PDF *by filename* without a
   dialog, for a button wall that loads a deck on cue.
 - **Laser pointer** — mirrors the presenter's mouse position over the Now preview onto the Output
@@ -157,7 +209,10 @@ lets a third-party app silently seize the default-app slot:
 | **Browser: Output opened on the wrong display** | Window Management permission was refused. Move it yourself. |
 | **Browser: no OSC settings anywhere** | Correct — a web page has no UDP socket. Use the desktop app. |
 | **Auto-advance stopped at the end** | By design; it does not loop. |
-| **macOS/Windows warn the app is unidentified** | Unsigned build — see [UNSIGNED.md](UNSIGNED.md). |
+| **Windows warns the app is unidentified** | The Windows builds are unsigned — see [UNSIGNED.md](UNSIGNED.md). macOS builds are notarised and open without a warning. |
+| **The transition never plays** | The default is `Cut`, which is no transition. Also check you are watching the **Output** window — the Now/Next panes always cut. |
+| **The direction picker vanished** | Only Push, Wipe, Cover and Uncover read a direction; the other five hide it. Your choice is kept for when you switch back. |
+| **An OSC transition command did nothing** | An unrecognised effect or direction name is ignored by design, so a typo can't alter a live show. Check the spelling against the guide. |
 | **"Set as default" didn't finish the job** | On Windows you confirm in Settings; on macOS install `duti` or follow the steps shown. |
 | **v1.3.1 files are named "pdf-presenter-lite"** | That release predates the rename. The hosted build keeps the Lite name for good. |
 
