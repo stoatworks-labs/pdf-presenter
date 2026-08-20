@@ -1,10 +1,42 @@
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 
 import { readFileSync } from 'node:fs'
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
+
+/**
+ * The shared Stoatworks footer, and with it the "report a bug" button. Injected
+ * here rather than written into index.html because this config is the hosted
+ * target and the Electron build is not: the desktop app has its own About window
+ * and should not grow a web footer. Same arrangement as atem-scopes and simpleVIS.
+ */
+function supportFooter(): Plugin {
+  return {
+    name: 'stoatworks-support-footer',
+    transformIndexHtml: {
+      order: 'post',
+      handler() {
+        return [
+          {
+            tag: 'script',
+            injectTo: 'body',
+            attrs: {
+              src: '/support-footer.js',
+              defer: true,
+              'data-app': 'PDF Presenter',
+              'data-repo': 'https://github.com/stoatworks-labs/pdf-presenter',
+              'data-version': `v${pkg.version}`,
+              'data-note':
+                'It runs entirely in your browser — no PDF you open is uploaded.'
+            }
+          }
+        ]
+      }
+    }
+  }
+}
 
 // Hosted build: the same React UI as the Electron renderer, backed by
 // src/web/browserApi.ts instead of the preload IPC bridge, so it can be
@@ -31,5 +63,5 @@ export default defineConfig({
     outDir: resolve('out-static'),
     emptyOutDir: true
   },
-  plugins: [react()]
+  plugins: [react(), supportFooter()]
 })
