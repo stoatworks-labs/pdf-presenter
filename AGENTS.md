@@ -141,3 +141,10 @@ desktop app.
 Log through the vendored `diag` module in `src/main/diag/`, never `console`. Anything written
 to stdout corrupts the diagnostics bundle, whose stdout is a path.
 See [docs/diagnostics.md](docs/diagnostics.md).
+
+## Notes
+
+`docs/NOTES.md` carries this repo's working notes — current status, decisions
+already made, and the traps that have actually bitten. Read it before changing
+anything non-obvious. Cross-cutting fleet knowledge lives in
+[fleet-notes](https://github.com/stoatworks-labs/fleet-notes).
