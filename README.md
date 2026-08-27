@@ -34,22 +34,22 @@ over its own OSC control surface.*
 
 ## Download
 
-**[v1.6.0](https://github.com/stoatworks-labs/pdf-presenter/releases/tag/v1.6.0)** — prebuilt for macOS, Windows and Linux. Pick your platform:
+**[v1.6.1](https://github.com/stoatworks-labs/pdf-presenter/releases/tag/v1.6.1)** — prebuilt for macOS, Windows and Linux. Pick your platform:
 
 <details>
 <summary><b>macOS</b> — Universal (Apple Silicon + Intel), Apple Silicon, Intel</summary>
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Universal (Apple Silicon + Intel) · .dmg disk image | [`pdf-presenter-1.6.0-universal.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-universal.dmg) | 228 MB |
-| Apple Silicon · .dmg disk image | [`pdf-presenter-1.6.0-arm64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-arm64.dmg) | 129 MB |
-| Intel · .dmg disk image | [`pdf-presenter-1.6.0-x64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-x64.dmg) | 134 MB |
-| Universal (Apple Silicon + Intel) · .pkg installer | [`pdf-presenter-lite-1.6.0-macos-universal.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-lite-1.6.0-macos-universal.pkg) | 228 MB |
-| Apple Silicon · .pkg installer | [`pdf-presenter-lite-1.6.0-macos-arm64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-lite-1.6.0-macos-arm64.pkg) | 129 MB |
-| Intel · .pkg installer | [`pdf-presenter-lite-1.6.0-macos-x64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-lite-1.6.0-macos-x64.pkg) | 134 MB |
-| Universal (Apple Silicon + Intel) · .zip archive | [`PDF.Presenter-1.6.0-universal-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/PDF.Presenter-1.6.0-universal-mac.zip) | 228 MB |
-| Apple Silicon · .zip archive | [`PDF.Presenter-1.6.0-arm64-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/PDF.Presenter-1.6.0-arm64-mac.zip) | 129 MB |
-| Intel · .zip archive | [`PDF.Presenter-1.6.0-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/PDF.Presenter-1.6.0-mac.zip) | 134 MB |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`pdf-presenter-1.6.1-universal.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-universal.dmg) | 228 MB |
+| Apple Silicon · .dmg disk image | [`pdf-presenter-1.6.1-arm64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-arm64.dmg) | 129 MB |
+| Intel · .dmg disk image | [`pdf-presenter-1.6.1-x64.dmg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-x64.dmg) | 134 MB |
+| Universal (Apple Silicon + Intel) · .pkg installer | [`pdf-presenter-lite-1.6.1-macos-universal.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-lite-1.6.1-macos-universal.pkg) | 228 MB |
+| Apple Silicon · .pkg installer | [`pdf-presenter-lite-1.6.1-macos-arm64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-lite-1.6.1-macos-arm64.pkg) | 129 MB |
+| Intel · .pkg installer | [`pdf-presenter-lite-1.6.1-macos-x64.pkg`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-lite-1.6.1-macos-x64.pkg) | 134 MB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`PDF.Presenter-1.6.1-universal-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/PDF.Presenter-1.6.1-universal-mac.zip) | 228 MB |
+| Apple Silicon · .zip archive | [`PDF.Presenter-1.6.1-arm64-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/PDF.Presenter-1.6.1-arm64-mac.zip) | 129 MB |
+| Intel · .zip archive | [`PDF.Presenter-1.6.1-mac.zip`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/PDF.Presenter-1.6.1-mac.zip) | 134 MB |
 
 </details>
 
@@ -58,12 +58,12 @@ over its own OSC control surface.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| x64 & ARM64 · .exe installer | [`pdf-presenter-1.6.0-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-setup.exe) | 211 MB |
-| x64 · .exe installer | [`pdf-presenter-1.6.0-x64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-x64-setup.exe) | 108 MB |
-| ARM64 · .exe installer | [`pdf-presenter-1.6.0-arm64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-arm64-setup.exe) | 104 MB |
-| x64 & ARM64 · portable .exe | [`pdf-presenter-1.6.0-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-portable.exe) | 211 MB |
-| x64 · portable .exe | [`pdf-presenter-1.6.0-x64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-x64-portable.exe) | 107 MB |
-| ARM64 · portable .exe | [`pdf-presenter-1.6.0-arm64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0-arm64-portable.exe) | 104 MB |
+| x64 & ARM64 · .exe installer | [`pdf-presenter-1.6.1-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-setup.exe) | 211 MB |
+| x64 · .exe installer | [`pdf-presenter-1.6.1-x64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-x64-setup.exe) | 108 MB |
+| ARM64 · .exe installer | [`pdf-presenter-1.6.1-arm64-setup.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-arm64-setup.exe) | 104 MB |
+| x64 & ARM64 · portable .exe | [`pdf-presenter-1.6.1-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-portable.exe) | 211 MB |
+| x64 · portable .exe | [`pdf-presenter-1.6.1-x64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-x64-portable.exe) | 107 MB |
+| ARM64 · portable .exe | [`pdf-presenter-1.6.1-arm64-portable.exe`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1-arm64-portable.exe) | 104 MB |
 
 </details>
 
@@ -72,10 +72,10 @@ over its own OSC control surface.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| x64 · .deb package (Debian/Ubuntu) | [`pdf-presenter_1.6.0_amd64.deb`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter_1.6.0_amd64.deb) | 108 MB |
-| ARM64 · .deb package (Debian/Ubuntu) | [`pdf-presenter_1.6.0_arm64.deb`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter_1.6.0_arm64.deb) | 101 MB |
-| x64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-1.6.0.x86_64.rpm`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0.x86_64.rpm) | 93 MB |
-| ARM64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-1.6.0.aarch64.rpm`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.0/pdf-presenter-1.6.0.aarch64.rpm) | 87 MB |
+| x64 · .deb package (Debian/Ubuntu) | [`pdf-presenter_1.6.1_amd64.deb`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter_1.6.1_amd64.deb) | 108 MB |
+| ARM64 · .deb package (Debian/Ubuntu) | [`pdf-presenter_1.6.1_arm64.deb`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter_1.6.1_arm64.deb) | 101 MB |
+| x64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-1.6.1.x86_64.rpm`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1.x86_64.rpm) | 93 MB |
+| ARM64 · .rpm package (Fedora/RHEL) | [`pdf-presenter-1.6.1.aarch64.rpm`](https://github.com/stoatworks-labs/pdf-presenter/releases/download/v1.6.1/pdf-presenter-1.6.1.aarch64.rpm) | 87 MB |
 
 </details>
 
