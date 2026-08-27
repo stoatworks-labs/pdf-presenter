@@ -19,7 +19,10 @@ import { installElectronDiagnostics } from './diag/electron.js'
 initDiag({
   app: 'pdf-presenter',
   envPrefix: 'PDF_PRESENTER',
-  version: '1.3.1',
+  // From package.json via electron-builder, so it cannot drift from the
+  // release the way a hand-maintained literal did (every build from
+  // 1.3.1 onward logged that version regardless of the real one).
+  version: app.getVersion(),
   cwd: app_diag_cwd()
 })
 installElectronDiagnostics()
