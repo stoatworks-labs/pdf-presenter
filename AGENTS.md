@@ -11,7 +11,7 @@ A **minimal PDF-only presenter**: a Now/Next presenter view with clickable slide
 on one screen, and a fullscreen output window on another. No slide authoring, no media, no
 show format — you open a PDF and present it.
 
-Public repo, **v1.3.1**, and **field proven** — it has been run on real events.
+Public repo, **v1.6.1**, and **field proven** — it has been run on real events.
 
 It ships as **two builds from one codebase**: an Electron desktop app, and a hosted
 browser build with no backend at all.
