@@ -1,0 +1,33 @@
+name: ci
+
+# What a green build cannot tell you: that the site renders. A Dependabot PR that
+# bumped react without react-dom built clean in RFutils and left the hosted page
+# empty for three weeks. So this installs with a plain `npm ci` (no
+# --legacy-peer-deps: a bump that only installs with it is a bump that breaks the
+# stack), checks the lockfile actually matches the manifest, builds, and then
+# loads the built site in a real browser and fails on any runtime error.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Lockfile matches manifest
+        run: npm ls --all >/dev/null
+      - name: Build
+        run: npm run static:build
+      - name: Smoke-check the built site
+        uses: stoatworks-labs/smoke-check@v1
+        with:
+          dir: out-static
