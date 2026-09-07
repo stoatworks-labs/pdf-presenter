@@ -246,20 +246,21 @@ branch on that — **never on "is this Electron"**.
 
 ## Status
 
-**Field proven** — this has been run on real events, not just verified on the
-bench.
+**Field proven, both builds** — the desktop app and the hosted browser build
+(PDF Presenter Lite) have each been run on real events, not just verified on
+the bench.
 
-Before that, it was built and verified end-to-end: opening a PDF,
+Before that, the desktop app was built and verified end-to-end: opening a PDF,
 thumbnail-click navigation, arrow-key navigation, and the fullscreen Output
 window (including a real race condition in the initial state hand-off, found and
 fixed during testing) all confirmed working against a real multi-page PDF.
 
-**The browser build is newer and has not been run on an event**, but it has been
-verified on a dual-display setup. Against a real multi-page PDF: the deck loads
-and renders, the presenter view and thumbnails work, state and laser position
-reach a separate Output window, transport keys pressed in the Output window
-drive the control window, an Output window loaded *after* a push pulls the
-current state, and the Output window opens **on the second display** by itself.
+The browser build went through the same bench first, on a dual-display setup
+against a real multi-page PDF: the deck loads and renders, the presenter view
+and thumbnails work, state and laser position reach a separate Output window,
+transport keys pressed in the Output window drive the control window, an Output
+window loaded *after* a push pulls the current state, and the Output window
+opens **on the second display** by itself.
 
 It opens there as a normal window, not fullscreen — that part is one click, and
 has to be. Fullscreen can only be entered by a gesture inside the window that is

@@ -11,7 +11,7 @@ A **minimal PDF-only presenter**: a Now/Next presenter view with clickable slide
 on one screen, and a fullscreen output window on another. No slide authoring, no media, no
 show format — you open a PDF and present it.
 
-Public repo, **v1.6.1**, and **field proven** — it has been run on real events.
+Public repo, **v1.6.1**, and **field proven** — both builds have been run on real events.
 
 It ships as **two builds from one codebase**: an Electron desktop app, and a hosted
 browser build with no backend at all.
@@ -105,14 +105,15 @@ npm run static:build     # the browser build, as static assets
 
 ## 7. Status — state it precisely
 
-**The desktop app is field proven** — run on real events. **The browser build is newer and
-has never been run on an event**, though it is verified on a real dual-display setup: deck
-loads and renders, state and laser position reach a separate Output window, transport keys
-pressed in the Output drive the control window, a late-loading Output pulls current state,
-and the Output opens on the second display by itself.
+**Both builds are field proven** — the desktop app and the hosted browser build have each
+been run on real events. Before that the browser build was verified on a real dual-display
+setup: deck loads and renders, state and laser position reach a separate Output window,
+transport keys pressed in the Output drive the control window, a late-loading Output pulls
+current state, and the Output opens on the second display by itself.
 
-Keep that distinction in the README. "Verified on a dual-display setup" is not "proven on a
-show", and the two builds are not equally proven.
+Keep the status honest per build. If a future change lands in only one of them, say which
+build has run it on a show and which has only been verified on the bench — "verified on a
+dual-display setup" is not "proven on a show".
 
 Browser build exclusions are all one limitation — a web page has no UDP socket, no
 path-addressable filesystem and no authority over the desktop: **no OSC, no watched folder,
