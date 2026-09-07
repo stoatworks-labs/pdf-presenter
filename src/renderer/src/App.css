@@ -272,12 +272,49 @@
 .now-next {
   flex: 3;
   display: flex;
-  gap: 1px;
   min-height: 0;
   background: var(--border);
 }
 
+/* While a drag is in progress the cursor must not flicker back to whatever
+   the pointer happens to be over, and dragging across the labels must not
+   start selecting them. */
+.now-next--resizing,
+.now-next--resizing * {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* The seam between Now and Next, and the handle that moves it. It stays the
+   same 1px hairline the fixed layout drew with a flex gap, and an invisible
+   ::after widens the grab target either side of it so catching the divider
+   does not need a pixel-perfect aim. The 12px gutter around each preview
+   means that wider target overlaps only empty space, never a clickable
+   canvas. */
+.now-next-divider {
+  flex: 0 0 1px;
+  position: relative;
+  background: var(--border);
+  cursor: col-resize;
+  /* Without this a touch drag pans the page instead of moving the divider. */
+  touch-action: none;
+}
+
+.now-next-divider::after {
+  content: '';
+  position: absolute;
+  inset: 0 -4px;
+  z-index: 1;
+}
+
+.now-next-divider:hover,
+.now-next-divider--dragging {
+  background: var(--accent);
+}
+
 .slide-slot {
+  /* flex-grow is set inline from the divider position; this is the even split
+     it starts from. */
   flex: 1;
   display: flex;
   flex-direction: column;
