@@ -142,8 +142,9 @@ macOS builds are signed and notarised and open normally. The Windows builds are 
 - **Slide transitions** — one global transition for the whole deck (there is
   no per-slide setting: a PDF has nowhere to store one, and a presenter picks
   a look once). Cut, fade, dip to black, dip to white, and push, wipe, cover
-  and uncover from any of the four sides or four corners, plus zoom. The
-  duration is global too, in milliseconds. **Only the Output window
+  and uncover from any of the four sides or four corners — or **dynamic**,
+  which comes from the left when advancing and from the right when stepping
+  back — plus zoom. The duration is global too, in milliseconds. **Only the Output window
   transitions** — the presenter's Now/Next panes always cut, so the operator
   is never looking at an animation instead of the truth. Settable remotely
   with `/pdfpresenter/slideshow/transition/seteffect`, `/setdirection` and

@@ -89,14 +89,19 @@ is nowhere to store a per-slide choice even if the app wanted to offer one.
 | **Uncover** | The new slide stays put; the old one slides away to reveal it. |
 | **Zoom** | The new slide scales up from slightly small while fading in. |
 
-**Push, wipe, cover and uncover** take a direction — four sides and four corners. The picker
-is hidden for the other five, which do not read it, but your choice is kept so switching back
-restores it.
+**Push, wipe, cover and uncover** take a direction — four sides, four corners, or **Dynamic**.
+The picker is hidden for the other five, which do not read it, but your choice is kept so
+switching back restores it.
 
 > Direction is named for **where the new slide comes from**, so "From left" always means
 > movement to the right, whichever of the four effects you are on. Uncover is the one to think
 > about for a second: the new slide doesn't move, so "From left" is the *old* slide leaving to
 > the right.
+
+**Dynamic** follows the way you are moving through the deck: advancing plays "From left",
+stepping back plays "From right", so going back visibly undoes the move that went forward.
+Jumping to a slide from the thumbnail strip counts the same way — an earlier slide is a step
+back, a later one is an advance.
 
 **Duration** is global too, in milliseconds — 500 by default, and held between 50 and 5000.
 For the two dips it covers **both halves**, down and back up. Below 50 ms every effect is a
@@ -216,6 +221,7 @@ lets a third-party app silently seize the default-app slot:
 | **Windows warns the app is unidentified** | The Windows builds are unsigned — see [UNSIGNED.md](UNSIGNED.md). macOS builds are notarised and open without a warning. |
 | **The transition never plays** | The default is `Cut`, which is no transition. Also check you are watching the **Output** window — the Now/Next panes always cut. |
 | **The direction picker vanished** | Only Push, Wipe, Cover and Uncover read a direction; the other five hide it. Your choice is kept for when you switch back. |
+| **Dynamic went the wrong way** | It reads the page numbers, not the key you pressed: a later page is an advance and comes from the left, an earlier one is a step back and comes from the right. |
 | **An OSC transition command did nothing** | An unrecognised effect or direction name is ignored by design, so a typo can't alter a live show. Check the spelling against the guide. |
 | **"Set as default" didn't finish the job** | On Windows you confirm in Settings; on macOS install `duti` or follow the steps shown. |
 | **v1.3.1 files are named "pdf-presenter-lite"** | That release predates the rename. The hosted build keeps the Lite name for good. |

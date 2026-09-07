@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { PDFDocumentProxy } from 'pdfjs-dist'
 import type { OutputState, LaserPosition } from '../../shared/output'
-import { DEFAULT_TRANSITION } from '../../shared/transitions'
+import { DEFAULT_TRANSITION, type SlideTravel } from '../../shared/transitions'
 import { loadPdf, renderPageContain } from './pdf'
 import { transitionToSlide } from './transitions'
 
@@ -88,8 +88,11 @@ function Output(): React.JSX.Element {
     deckChangedRef.current = false
 
     const settings = cut ? { ...DEFAULT_TRANSITION, effect: 'cut' as const } : state.transition
+    // Which way through the deck — read off the page that was on screen, so
+    // a thumbnail jump backwards plays the same way Previous does.
+    const travel: SlideTravel = last && page < last.page ? 'backward' : 'forward'
 
-    transitionToSlide(frame, canvas, settings ?? DEFAULT_TRANSITION, render).catch((err) =>
+    transitionToSlide(frame, canvas, settings ?? DEFAULT_TRANSITION, travel, render).catch((err) =>
       console.error('Failed to render output page', err)
     )
   }, [doc, state])

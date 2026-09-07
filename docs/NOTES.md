@@ -14,7 +14,11 @@ Cross-cutting notes that are not specific to this repo live in
 **Renamed 2026-08-01** from *PDF Presenter Lite*. The two builds now carry different names on purpose: the desktop app is **PDF Presenter**, and the hosted browser build is **PDF Presenter Lite** — "lite" being exactly the capability gap, nothing else. What moved: repo `stoatworks-labs/pdf-presenter`, local dir, npm name, appId `com.allansargeant.pdf-presenter`, executable/artifact slug, Windows ProgID, diag app id (so logs are now `pdf-presenter/`), `RE_NAME`/`RE_SLUG`. **What deliberately did NOT move, because each would break something live:** the Worker + `pdf-presenter-lite.stoatworks-labs.com`, the web build's BroadcastChannel name, and the `companion-module-pdf-presenter-lite` repo *and module id* (a module id is what an installed Companion config points at). The website slug moved to `/software/pdf-presenter` with an Astro redirect from the old path. **v1.3.1 installers still carry the old name** — existing installs won't upgrade in place, since the OS sees a different appId.
 
 **Slide transitions (2026-08-09)** — cut/fade/dip-black/dip-white/push/wipe/cover/uncover/zoom,
-8 directions, one global duration, in **both** this repo and `presentation-commander-client`.
+8 directions plus `dynamic` (2026-09-07: from-left advancing, from-right stepping back, resolved
+per page change in Output/ProgramOut off the previously rendered page number — so the OSC
+feedback reports `dynamic`, never the resolved edge), one global duration, in **both** this
+repo and `presentation-commander-client`. The Companion module's fixed direction list carries
+`dynamic` too.
 The four transition files join `pdf.ts` on the copied-between-repos debt list. Output/Program
 only; the presenter view always cuts; Commander gates them to `kind: 'pdf'` because the
 app-backed sources bring their own. The engine snapshots the outgoing slide off the live canvas

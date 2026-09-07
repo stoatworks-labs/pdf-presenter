@@ -40,8 +40,20 @@ export type TransitionEffect =
  * exiting rightwards, which is the same motion the eye reads as "the new
  * one is over on the left".
  */
-export type TransitionDirection =
+export type TransitionEdge =
   'left' | 'right' | 'top' | 'bottom' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+
+/**
+ * What the operator picks: a fixed edge, or `dynamic`, which follows the way
+ * the deck is moving — advancing comes from the left, stepping back comes
+ * from the right, so going back visibly undoes the move that went forward.
+ * Resolved to an edge per page change by `resolveDirection`.
+ */
+export type TransitionDirection = TransitionEdge | 'dynamic'
+
+/** Which way a page change goes through the deck. A jump to an earlier
+ * slide from a thumbnail counts as backward just as Previous does. */
+export type SlideTravel = 'forward' | 'backward'
 
 export interface TransitionSettings {
   effect: TransitionEffect
@@ -73,7 +85,8 @@ export const TRANSITION_DIRECTIONS: readonly TransitionDirection[] = [
   'right',
   'bottom-right',
   'bottom',
-  'bottom-left'
+  'bottom-left',
+  'dynamic'
 ]
 
 export const TRANSITION_EFFECT_LABELS: Record<TransitionEffect, string> = {
@@ -96,7 +109,8 @@ export const TRANSITION_DIRECTION_LABELS: Record<TransitionDirection, string> = 
   'top-left': 'From top left',
   'top-right': 'From top right',
   'bottom-left': 'From bottom left',
-  'bottom-right': 'From bottom right'
+  'bottom-right': 'From bottom right',
+  dynamic: 'Dynamic (left forward, right back)'
 }
 
 /** Which effects actually read `direction` — the rest hide the picker. */
@@ -130,13 +144,26 @@ export function isTransitionDirection(value: string): value is TransitionDirecti
 }
 
 /**
+ * The edge a page change actually comes from. The fixed choices are their own
+ * answer; `dynamic` reads the travel, so the same setting plays as "from left"
+ * going forward and "from right" coming back.
+ */
+export function resolveDirection(
+  direction: TransitionDirection,
+  travel: SlideTravel
+): TransitionEdge {
+  if (direction !== 'dynamic') return direction
+  return travel === 'backward' ? 'right' : 'left'
+}
+
+/**
  * Unit vector for the direction everything travels, in screen coordinates
  * (x right, y down) — i.e. pointing *away* from `direction`'s edge. The
  * diagonals are deliberately (±1, ±1) rather than normalised: a diagonal
  * push has to clear the full width *and* the full height, so each axis needs
  * its own full travel.
  */
-export function directionVector(direction: TransitionDirection): { x: number; y: number } {
+export function directionVector(direction: TransitionEdge): { x: number; y: number } {
   switch (direction) {
     case 'left':
       return { x: 1, y: 0 }

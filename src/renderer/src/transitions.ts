@@ -1,6 +1,8 @@
 import {
   clampTransitionMs,
   directionVector,
+  resolveDirection,
+  type SlideTravel,
   type TransitionSettings
 } from '../../shared/transitions'
 
@@ -63,10 +65,15 @@ function wipeClip(v: { x: number; y: number }, progress: number): string {
   return `inset(${top}% ${right}% ${bottom}% ${left}%)`
 }
 
+/**
+ * `travel` says which way through the deck this change goes; only a `dynamic`
+ * direction reads it, and the caller knows because it holds the previous page.
+ */
 export async function transitionToSlide(
   frame: HTMLElement,
   canvas: HTMLCanvasElement,
   settings: TransitionSettings,
+  travel: SlideTravel,
   render: () => Promise<void>
 ): Promise<void> {
   activeTransitions.get(frame)?.finish()
@@ -80,7 +87,7 @@ export async function transitionToSlide(
   }
 
   const durationMs = clampTransitionMs(settings.durationMs)
-  const v = directionVector(settings.direction)
+  const v = directionVector(resolveDirection(settings.direction, travel))
   const dx = v.x * box.width
   const dy = v.y * box.height
 
