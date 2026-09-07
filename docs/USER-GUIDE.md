@@ -18,6 +18,10 @@ There are **two builds**, and it matters which one you are on — see
 ![The presenter view: Now and Next side by side, with a horizontal strip of every slide's thumbnail below them and a transport bar.](screenshot.png)
 
 - **Now** and **Next** side by side.
+- **A draggable divider between them.** Drag the line separating the two previews to give one of
+  them more of the screen — a dense slide you need to read wants a big Now, a talk you know well
+  mostly wants to see what is coming. Double-click the divider to even them up again. Where you
+  leave it is remembered, so it is still there next time you open the app.
 - **A thumbnail of every slide** below them — click any one to jump straight to it.
 - **Clicking the "Next" preview itself** jumps to it, which is the fastest way to advance with a
   mouse.
