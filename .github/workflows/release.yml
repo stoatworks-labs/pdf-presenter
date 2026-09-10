@@ -42,6 +42,47 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # An Electron app is mostly framework and helper binaries, merged one by
+      # one by @electron/universal, so checking the app binary alone would say
+      # almost nothing about what a user actually runs. Walk them all.
+      #
+      # Captured and matched with `case`, never piped into grep: steps run as
+      # `bash -eo pipefail`, so grep exiting at its first match SIGPIPEs lipo
+      # and fails the step BECAUSE the match was found.
+      - name: Verify the macOS universal build is universal
+        if: runner.os == 'macOS' && !contains(matrix.platform, '--arm64')
+        shell: bash
+        run: |
+          d=dist/mac-universal
+          [ -d "$d" ] || { echo "no $d produced" >&2; exit 1; }
+          app="$(cd "$d" && ls -d *.app 2>/dev/null | head -1)"
+          [ -n "$app" ] || { echo "no .app in $d" >&2; exit 1; }
+          found=0
+          thin=0
+          while IFS= read -r f; do
+            __archs="$( lipo -archs "$f" 2>/dev/null )" || continue
+            [ -n "$__archs" ] || continue
+            found=$((found+1))
+            case "$__archs" in
+              *arm64*) ;;
+              *) echo "no arm64 slice: ${f#$d/} ($__archs)" >&2; thin=$((thin+1)) ;;
+            esac
+            case "$__archs" in
+              *x86_64*) ;;
+              *) echo "no x86_64 slice: ${f#$d/} ($__archs)" >&2; thin=$((thin+1)) ;;
+            esac
+          done < <(find "$d/$app" -type f)
+          echo "checked $found Mach-O file(s) in $app"
+          # A walk that matched nothing would pass every check above in silence.
+          if [ "$found" -lt 1 ]; then
+            echo "found no Mach-O to check in $app" >&2
+            exit 1
+          fi
+          if [ "$thin" -gt 0 ]; then
+            echo "$thin binary/binaries are not universal" >&2
+            exit 1
+          fi
+
       - name: Build macOS .pkg installers
         if: runner.os == 'macOS'
         shell: bash
