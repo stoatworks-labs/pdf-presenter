@@ -27,6 +27,15 @@ files:
   # arch this repo's npm install ran on, so it ends up byte-identical in
   # both x64 and arm64 packaged trees and breaks the universal-binary merge.
   - '!**/node_modules/@napi-rs/**'
+  # pdf.js itself, 35 MB of it, none of which the packaged app ever opens.
+  # Only the renderer imports pdfjs-dist, and Vite inlines the library and
+  # its worker into the renderer chunk at build time; main and preload never
+  # touch it. The one part that IS still fetched at runtime — the JPEG 2000 /
+  # JBIG2 / ICC wasm decoders — is copied out of node_modules into
+  # out/renderer/pdfjs-wasm/ at build time by vite.pdfjs-wasm.ts and served
+  # from there, so node_modules is not on any runtime path. If a future
+  # change adds a main-process import of pdfjs-dist, this line has to go.
+  - '!**/node_modules/pdfjs-dist/**'
 win:
   executableName: pdf-presenter
   target:
