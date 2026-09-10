@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react'
 
 import { readFileSync } from 'node:fs'
 
+import { pdfjsWasm } from './vite.pdfjs-wasm'
+
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
 
 /**
@@ -63,5 +65,5 @@ export default defineConfig({
     outDir: resolve('out-static'),
     emptyOutDir: true
   },
-  plugins: [react(), supportFooter()]
+  plugins: [react(), supportFooter(), pdfjsWasm()]
 })
