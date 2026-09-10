@@ -12,7 +12,7 @@
 window.STOATWORKS_ABOUT = Object.assign({
   "name": "PDF Presenter",
   "slug": "pdf-presenter",
-  "version": "v1.6.2",
+  "version": "v1.7.0",
   "hook": "Minimal PDF presenter",
   "licence": "MIT",
   "guide": "https://stoatworks-labs.com/software/pdf-presenter/guide/",
