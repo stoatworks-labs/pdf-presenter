@@ -7,6 +7,7 @@ import Output from '../renderer/src/Output'
 import { controlKeyAction } from '../shared/keys'
 import { browserApi, installOutputBridge, sendKeyAction } from './browserApi'
 import { isOutputWindow } from './outputChannel'
+import { registerServiceWorker } from './register-sw'
 
 // The About dialog's data file ships a version baked at sync time; this is the
 // one the build actually produced. Spread, not assign: about-data.js may not
@@ -62,3 +63,5 @@ if (isOutput) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>{isOutput ? <Output /> : <App />}</StrictMode>
 )
+
+registerServiceWorker()

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="PDF Presenter Lite">
+  <rect width="32" height="32" rx="6" fill="#0f1013"/>
+  <g id="mark">
+    <!-- The slide the room sees, and the presenter's notes underneath it. -->
+    <rect x="4.2" y="5.4" width="23.6" height="13" rx="1.9" fill="none" stroke="#ff8a3d" stroke-width="1.9"/>
+    <rect x="4.2" y="21" width="23.6" height="6" rx="1.4" fill="#ff8a3d"/>
+    <g stroke="#0f1013" stroke-width="1.3" stroke-linecap="round">
+      <path d="M7.2 23.3h12.4M7.2 25.4h8.2"/>
+    </g>
+  </g>
+</svg>
