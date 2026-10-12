@@ -1,14 +1,14 @@
 # PDF Presenter user guide
 
-PDF Presenter is **a minimal, PDF-only presenter**: a Now/Next presenter view with a strip of
+PDF Presenter is a minimal, PDF-only presenter: a Now/Next presenter view with a strip of
 clickable thumbnails, and a chrome-free fullscreen Output window on a second display. It renders
 locally with pdf.js and integrates with nothing.
 
-> **Status: field proven** — released and run on real events. macOS builds are **signed and
+> **Status: field proven.** Released, and used on real events. macOS builds are **signed and
 > notarised** and open normally. The **Windows** builds are unsigned, so SmartScreen warns
 > once; see [UNSIGNED.md](UNSIGNED.md).
 
-There are **two builds**, and it matters which one you are on — see
+There are **two builds**, and it matters which one you're on: see
 [Desktop or browser](#desktop-or-browser).
 
 ---
@@ -18,19 +18,19 @@ There are **two builds**, and it matters which one you are on — see
 ![The presenter view: Now and Next side by side, with a horizontal strip of every slide's thumbnail below them and a transport bar.](screenshot.png)
 
 - **Now** and **Next** side by side.
-- **A draggable divider between them.** Drag the line separating the two previews to give one of
-  them more of the screen — a dense slide you need to read wants a big Now, a talk you know well
-  mostly wants to see what is coming. Double-click the divider to even them up again. Where you
-  leave it is remembered, so it is still there next time you open the app.
-- **A thumbnail of every slide** below them — click any one to jump straight to it.
+- **A draggable divider between them.** Drag the line between the two previews to give one of
+  them more of the screen. A dense slide you need to read wants a big Now; a talk you know well
+  mostly wants to see what's coming. Double-click the divider to even them up again. It
+  remembers where you left it, so it's still there next time you open the app.
+- **A thumbnail of every slide** below them. Click any one to jump straight to it.
 - **Clicking the "Next" preview itself** jumps to it, which is the fastest way to advance with a
   mouse.
 - **A Previous/Next transport bar** under the strip.
 
 ![The Output window: the current slide, full screen, with no chrome.](output-screenshot.png)
 
-The two windows carry distinct names in the window switcher — "PDF Presenter — Control" and
-"PDF Presenter — Output (*display*)" — so you can tell them apart when alt-tabbing under
+The two windows have different names in the window switcher, "PDF Presenter — Control" and
+"PDF Presenter — Output (*display*)", so you can tell them apart when you're alt-tabbing under
 pressure.
 
 ---
@@ -41,27 +41,27 @@ pressure.
 
 **Left/Right, Up/Down and Page Up/Page Down all move a slide. Space also advances.**
 
-> The same keys work **whether the presenter view or the Output window has focus**. That is the
-> detail that makes a presentation clicker keep working on a single-display machine — or after a
-> stray click has moved focus to the Output window mid-show.
+> The same keys work **whether the presenter view or the Output window has focus**. That's what
+> keeps a presentation clicker working on a single-display machine, or after a stray click has
+> moved focus to the Output window mid-show.
 
 ### Blanking
 
-**`B` for black, `W` for white** — cuts the Output window to solid colour **without losing your
-place**, mirroring PowerPoint's own shortcuts. Press again to restore.
+**`B` for black, `W` for white.** Either one cuts the Output window to solid colour **without
+losing your place**, the same as PowerPoint's own shortcuts. Press again to restore.
 
 ### Internal PDF links
 
-Links authored into the PDF itself — a table of contents, "back to agenda" links exported from
-PowerPoint, Keynote or Google Slides — become **clickable on the Now slide** and jump to their
+Links authored into the PDF itself (a table of contents, "back to agenda" links exported from
+PowerPoint, Keynote or Google Slides) become **clickable on the Now slide** and jump to their
 target page.
 
 Only internal same-document links are wired up; external URLs are left alone.
 
 ### Sections
 
-Sections come from **the PDF's own top-level outline/bookmarks**. If your deck has none, there
-are no sections — that is the exporter's doing, not the app's.
+Sections come from **the PDF's own top-level outline/bookmarks**. If your deck hasn't got any,
+there are no sections. That's the exporter's doing, not the app's.
 
 ### Timed auto-advance
 
@@ -71,11 +71,11 @@ An optional "advance every N seconds" mode. **It stops at the last slide rather 
 
 ## Slide transitions
 
-One transition, chosen once, applied to every page change. Set it in the presenter view;
-it is remembered after a restart.
+One transition, chosen once and applied to every page change. Set it in the presenter view;
+it's remembered after a restart.
 
-**It is deliberately global, not per-slide.** A PDF carries no transition metadata, so there
-is nowhere to store a per-slide choice even if the app wanted to offer one.
+**It's global on purpose, rather than per-slide.** A PDF carries no transition metadata, so
+there's nowhere to store a per-slide choice even if the app wanted to offer one.
 
 | Effect | What happens |
 |---|---|
@@ -89,24 +89,24 @@ is nowhere to store a per-slide choice even if the app wanted to offer one.
 | **Uncover** | The new slide stays put; the old one slides away to reveal it. |
 | **Zoom** | The new slide scales up from slightly small while fading in. |
 
-**Push, wipe, cover and uncover** take a direction — four sides, four corners, or **Dynamic**.
-The picker is hidden for the other five, which do not read it, but your choice is kept so
+**Push, wipe, cover and uncover** take a direction: four sides, four corners, or **Dynamic**.
+The picker's hidden for the other five, which don't use it, but your choice is kept, so
 switching back restores it.
 
 > Direction is named for **where the new slide comes from**, so "From left" always means
-> movement to the right, whichever of the four effects you are on. Uncover is the one to think
+> movement to the right, whichever of the four effects you're on. Uncover is the one to think
 > about for a second: the new slide doesn't move, so "From left" is the *old* slide leaving to
 > the right.
 
-**Dynamic** follows the way you are moving through the deck: advancing plays "From left",
+**Dynamic** follows the way you're moving through the deck: advancing plays "From left",
 stepping back plays "From right", so going back visibly undoes the move that went forward.
-Jumping to a slide from the thumbnail strip counts the same way — an earlier slide is a step
+Jumping to a slide from the thumbnail strip counts the same way: an earlier slide is a step
 back, a later one is an advance.
 
-**Duration** is global too, in milliseconds — 500 by default, and held between 50 and 5000.
+**Duration** is global too, in milliseconds: 500 by default, and held between 50 and 5000.
 For the two dips it covers **both halves**, down and back up. Below 50 ms every effect is a
-cut, which `Cut` already does; above 5000 a transition stops being a transition and becomes a
-wait.
+cut, which `Cut` already does, and above 5000 a transition stops being a transition and turns
+into a wait.
 
 **Only the Output window transitions.** The presenter's Now and Next panes always cut, so the
 operator is never watching an animation instead of the truth.
@@ -115,20 +115,20 @@ operator is never watching an animation instead of the truth.
 
 Fixed in 1.5.0, and worth knowing if you run dark decks: every page change used to blink
 blank-then-white for a frame, because setting the output canvas's size clears it and pdf.js
-floods the canvas white before painting. Pages now render to an offscreen buffer and the
-visible canvas keeps the old slide until the new one is complete. **A `Cut` is now a genuine
-cut**, with no white frame — on any deck, at any duration, whether or not you use transitions.
+floods the canvas white before painting. Pages now render to an offscreen buffer, and the
+visible canvas keeps the old slide until the new one's finished. **A `Cut` is now a proper
+cut**, with no white frame, on any deck, at any duration, whether or not you use transitions.
 
 ---
 
 ## Desktop or browser
 
-Everything renders with pdf.js — the desktop app was never doing that part natively — so the
-whole presenter view also works as a **hosted web app with no backend**, at
+Everything renders with pdf.js (the desktop app never did that part natively), so the whole
+presenter view also works as a **hosted web app with no backend**, at
 [pdf-presenter-lite.stoatworks-labs.com](https://pdf-presenter-lite.stoatworks-labs.com).
 
-> **Your PDF is never uploaded.** There is no server and no upload endpoint: the file is read by
-> the page from your own disk, and the deck, the thumbnails and the Output window all stay inside
+> **Your PDF is never uploaded.** There's no server and no upload endpoint: the page reads the
+> file from your own disk, and the deck, the thumbnails and the Output window all stay inside
 > your browser.
 
 The hosted build is called **PDF Presenter Lite**, and it says so in its own titlebar, so an
@@ -146,9 +146,9 @@ operator can tell at a glance which one is on screen.
 | Set as default PDF app, wallpaper export | yes | **no** |
 | Diagnostics bundle | yes | **no** |
 
-**The exclusions are all the same limitation**: a web page has no UDP socket, no
-path-addressable filesystem, and no authority over the desktop it runs on. The UI hides those
-controls in the browser build rather than showing buttons that cannot work.
+The missing bits all come down to **the same limitation**: a web page has no UDP socket, no
+path-addressable filesystem and no say over the desktop it runs on. The browser build hides
+those controls rather than showing buttons that can't work.
 
 > **If you drive the show from a Stream Deck, use the desktop app.**
 
@@ -156,44 +156,44 @@ controls in the browser build rather than showing buttons that cannot work.
 
 - **It opens as a pop-up**, so allow pop-ups for the site.
 - **It opens as a normal window, not fullscreen.** Only a gesture *inside* a window can make that
-  window fullscreen, so it shows a "Click for fullscreen" prompt — and **that click is
-  unavoidable**. Nothing the opener does can stand in for it.
+  window fullscreen, so it shows a "Click for fullscreen" prompt, and **you can't avoid that
+  click**. Nothing the opener does can stand in for it.
 
 On Chromium it puts itself on your second display, which needs the Window Management permission.
-Refuse it and the window simply opens where the browser would have put it and you move it
-yourself. Either way the click is the same.
+Refuse it and the window opens wherever the browser would have put it, and you move it yourself.
+Either way the click is the same.
 
 ---
 
 ## Remote control (desktop only)
 
 A UDP OSC address space at `/pdfpresenter/...` covering slide navigation, black/white, Output
-open/close, the slide transition, and system enable/disable. Plain UDP rather than a Windows COM
-add-in, so it works on every platform the app ships for.
+open/close, the slide transition, and system enable/disable. It's plain UDP rather than a
+Windows COM add-in, so it works on every platform the app ships for.
 
 A [Companion module](https://github.com/stoatworks-labs/companion-module-pdf-presenter-lite)
 ships alongside for driving it from a Stream Deck.
 
 Four OSC features worth knowing:
 
-- **The transition** — `/pdfpresenter/slideshow/transition/seteffect`, `/setdirection` and
+- **The transition**: `/pdfpresenter/slideshow/transition/seteffect`, `/setdirection` and
   `/setduration` change the look mid-show, and the current setting is reported back on
   `/pdfpresenter/slideshow/transition*`. **An effect or direction name it doesn't recognise is
-  ignored on purpose** — a typo on a Companion button must not change the look of a live show.
-  A duration outside 50–5000 ms is clamped rather than refused.
-- **Watched folder** — off by default. Lets OSC open a specific PDF *by filename* without a
+  ignored on purpose**, because a typo on a Companion button mustn't change the look of a live
+  show. A duration outside 50–5000 ms is clamped rather than refused.
+- **Watched folder**: off by default. Lets OSC open a specific PDF *by filename* without a
   dialog, for a button wall that loads a deck on cue.
-- **Laser pointer** — mirrors the presenter's mouse position over the Now preview onto the Output
+- **Laser pointer**: mirrors the presenter's mouse position over the Now preview onto the Output
   window as a glowing dot.
-- **Set wallpaper** — renders the current slide and sets it as the desktop wallpaper on every
+- **Set wallpaper**: renders the current slide and sets it as the desktop wallpaper on every
   connected monitor. **macOS and Windows are fully covered; Linux is GNOME-only.**
 
 ---
 
 ## Set as Default PDF App
 
-A titlebar button. **What it actually does differs by OS**, because neither Windows nor macOS
-lets a third-party app silently seize the default-app slot:
+A titlebar button. **What it does depends on the OS**, because neither Windows nor macOS lets
+a third-party app take over the default-app slot without asking:
 
 | OS | What happens |
 |---|---|
@@ -201,8 +201,8 @@ lets a third-party app silently seize the default-app slot:
 | **macOS** | Registers with Launch Services; sets the default directly **if `duti` is installed** (`brew install duti`), otherwise shows the real manual steps |
 | **Linux** | Fully automatic, via `xdg-mime` |
 
-> The status message always says what actually happened — never a fake "done" when the real
-> answer is "you still need to confirm it".
+> The status message always says what actually happened. You won't get a fake "done" when the
+> real answer is "you still need to confirm it".
 
 ---
 
@@ -230,8 +230,8 @@ lets a third-party app silently seize the default-app slot:
 
 ## See also
 
-- [UNSIGNED.md](UNSIGNED.md) — Gatekeeper and SmartScreen
-- [diagnostics.md](diagnostics.md) — logs and the diagnostics bundle
-- [README](../README.md) — the full feature list and downloads
-- [companion-module-pdf-presenter-lite](https://github.com/stoatworks-labs/companion-module-pdf-presenter-lite)
-  — the Companion module
+- [UNSIGNED.md](UNSIGNED.md): Gatekeeper and SmartScreen
+- [diagnostics.md](diagnostics.md): logs and the diagnostics bundle
+- [README](../README.md): the full feature list and downloads
+- [companion-module-pdf-presenter-lite](https://github.com/stoatworks-labs/companion-module-pdf-presenter-lite):
+  the Companion module
