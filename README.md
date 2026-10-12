@@ -85,7 +85,7 @@ macOS builds are signed and notarised and open normally. The Windows builds are 
 > **v1.3.1 predates the rename.** It was released as *PDF Presenter Lite*, so its
 > files are named `pdf-presenter-lite-1.3.1-…` and it installs as
 > `PDF Presenter Lite.app` / `PDF Presenter Lite.exe`. Everything below describes
-> the app by its current name; the next release carries the new name. The hosted
+> the app by its current name, which it has carried since v1.4.0. The hosted
 > build keeps the old name for good: see
 > [Run it in a browser](#run-it-in-a-browser-with-nothing-installed--pdf-presenter-lite).
 
@@ -252,7 +252,7 @@ the opener can skip it; the prompt in the Output window is that gesture.
 
 The OSC control (and, indirectly, the wallpaper export) came from looking at how existing
 remote PowerPoint control tools work. None of their code is reused here (this app doesn't
-depend on PowerPoint at all, and two of the three are closed-source anyway), but I'd rather be
+depend on PowerPoint at all, and both are closed-source anyway), but I'd rather be
 upfront about where the ideas came from:
 
 - **[OSCPoint](https://github.com/phuvf/oscpoint)**: a Windows PowerPoint add-in with an OSC
