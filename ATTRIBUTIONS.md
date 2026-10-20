@@ -30,6 +30,16 @@ An npm dependency.
 
 The UI layer for the browser tools and the Electron and Tauri front ends.
 
+### pdf.js — Mozilla
+
+<https://github.com/mozilla/pdf.js>  
+Licence: Apache-2.0  
+Copyright: Mozilla Foundation
+
+An npm dependency (pdfjs-dist), bundled into the page with its worker.
+
+Mozilla's PDF renderer, the one in Firefox. It draws a PDF's pages to a canvas at whatever size they are wanted, rather than scaling a picture of them.
+
 ### The npm ecosystem
 
 <https://www.npmjs.com>  
