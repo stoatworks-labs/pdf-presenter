@@ -11,7 +11,7 @@ A **minimal PDF-only presenter**: a Now/Next presenter view with clickable slide
 on one screen, and a fullscreen output window on another. No slide authoring, no media, no
 show format — you open a PDF and present it.
 
-Public repo, **v1.7.2**, and **field proven** — both builds have been run on real events.
+Public repo, **v1.7.3**, and **field proven** — both builds have been run on real events.
 
 It ships as **two builds from one codebase**: an Electron desktop app, and a hosted
 browser build with no backend at all.
@@ -125,7 +125,7 @@ desktop app.
 
 - Public repo. "Commit" means commit **and** push.
 - Releases are built and published by `.github/workflows/release.yml` when a `v*` tag is
-  pushed (every release from v1.3.1 to v1.7.2 was published by github-actions[bot]);
+  pushed (every release from v1.3.1 to v1.7.3 was published by github-actions[bot]);
   `scripts/release-local.sh` is the local pipeline. The README's `## Download` block is
   generated; don't hand-edit it.
 - macOS builds are signed and notarised; the Windows builds are unsigned.
