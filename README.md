@@ -18,6 +18,10 @@ build at
 the same presenter view in a browser tab with nothing to install, minus the bits a web page
 can't do. That difference is all the "Lite" means; the two share their entire UI.
 
+The [project page](https://stoatworks-labs.com/software/pdf-presenter/) has the downloads, the user
+guide and the video, and [PDF Presenter Lite's page](https://stoatworks-labs.com/web-tools/pdf-presenter-lite/)
+has the browser build's own video.
+
 [![Watch it running — 48 seconds](docs/video-thumb.png)](https://www.youtube.com/watch?v=iNfjQ8ZmH-M)
 
 *A 48-second tour. That's the app itself presenting an actual PDF, driven over its own OSC

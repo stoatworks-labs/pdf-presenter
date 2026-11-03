@@ -82,6 +82,14 @@ export interface PresenterApi {
    */
   productName: string
 
+  /**
+   * The page about this build on stoatworks-labs.com, linked from the titlebar.
+   * Only the hosted build has one; the desktop app leaves it out and shows no
+   * link. From the backend, like the name, so the UI never has to ask which
+   * build it is in.
+   */
+  toolPage?: string
+
   capabilities: BackendCapabilities
 
   pdf: {

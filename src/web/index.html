@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PDF Presenter Lite</title>
+    <title>PDF Presenter Lite — Presenter view and a fullscreen output, in two tabs</title>
     <meta
       name="description"
-      content="Present a PDF with a presenter view and a separate fullscreen output. Runs entirely in your browser — the file is never uploaded."
+      content="Present a PDF with a Now/Next presenter view and a separate fullscreen output window. Free, it runs entirely in your browser, and the file is never uploaded."
     />
     <!-- Same policy as the Electron renderer, minus nothing: this build makes no
          network requests of its own once loaded. -->
@@ -19,8 +19,8 @@
     <meta property="og:site_name" content="Stoatworks Labs">
     <meta property="og:locale" content="en_GB">
     <meta property="og:url" content="https://pdf-presenter-lite.stoatworks-labs.com/">
-    <meta property="og:title" content="PDF Presenter Lite">
-    <meta property="og:description" content="Present a PDF with a presenter view and a separate fullscreen output. Runs entirely in your browser — the file is never uploaded.">
+    <meta property="og:title" content="PDF Presenter Lite — Presenter view and a fullscreen output, in two tabs">
+    <meta property="og:description" content="Present a PDF with a Now/Next presenter view and a separate fullscreen output window. Free, it runs entirely in your browser, and the file is never uploaded.">
     <!-- Card hosted on the main site: it is regenerated in place by the
          website's make_thumbnails.py and keeps its filename, so a copy
          vendored here would go stale without anything saying so. -->
@@ -31,6 +31,40 @@
     <meta property="og:image:alt" content="PDF Presenter Lite">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://stoatworks-labs.com/thumbs/pdf-presenter-lite-web.png">
+    <!-- Same @id as the entry on stoatworks-labs.com/web-tools/pdf-presenter-lite/,
+         so a search engine reads the two as one thing described twice. A data
+         block, not a script: the CSP above has nothing to say about it. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "@id": "https://pdf-presenter-lite.stoatworks-labs.com#app",
+        "name": "PDF Presenter Lite",
+        "url": "https://pdf-presenter-lite.stoatworks-labs.com",
+        "description": "Present a PDF with a Now/Next presenter view and a separate fullscreen output window. Free, it runs entirely in your browser, and the file is never uploaded.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "author": {
+          "@id": "https://stoatworks-labs.com/#organization",
+          "@type": "Organization",
+          "name": "Stoatworks Labs",
+          "url": "https://stoatworks-labs.com/"
+        },
+        "publisher": {
+          "@id": "https://stoatworks-labs.com/#organization"
+        },
+        "sameAs": [
+          "https://stoatworks-labs.com/web-tools/pdf-presenter-lite/",
+          "https://github.com/stoatworks-labs/pdf-presenter"
+        ]
+      }
+    </script>
     <link rel="manifest" href="/manifest.webmanifest" />
     <!-- iOS ignores the manifest's icons entirely and wants a PNG of its own. -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -39,6 +73,18 @@
   </head>
 
   <body>
+    <noscript>
+      <h1>PDF Presenter Lite</h1>
+      <p>A presenter for PDFs only, in a browser tab with nothing to install: a presenter view with Now and Next and a strip of slide thumbnails you can click, and a clean fullscreen output in a pop-up window that you put on the second display. It's driven by the keyboard or a clicker, with screen blanking, a laser pointer, internal PDF links, sections and auto-advance.</p>
+      <p>Your PDF is never uploaded: the page reads the file from your own disk, and the deck, the thumbnails and the output window all stay inside your browser. It doesn't do notes, media or deck editing, and OSC control, the watched folder and the desktop integrations need the desktop app, PDF Presenter.</p>
+      <p>It needs JavaScript to run.</p>
+      <ul>
+        <li><a href="https://stoatworks-labs.com/web-tools/pdf-presenter-lite/">PDF Presenter Lite on Stoatworks Labs</a></li>
+        <li><a href="https://stoatworks-labs.com/software/pdf-presenter/">Project page</a></li>
+        <li><a href="https://stoatworks-labs.com/software/pdf-presenter/guide/">User guide</a></li>
+        <li><a href="https://github.com/stoatworks-labs/pdf-presenter">Source code on GitHub</a></li>
+      </ul>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="./main.tsx"></script>
     <!--

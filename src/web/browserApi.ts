@@ -185,6 +185,7 @@ const noop = (): Unsubscribe => (): void => {}
 export const browserApi: PresenterApi = {
   // "Lite" is the hosted build: same presenter, minus everything below.
   productName: 'PDF Presenter Lite',
+  toolPage: 'https://stoatworks-labs.com/web-tools/pdf-presenter-lite/',
 
   capabilities: {
     osc: false,

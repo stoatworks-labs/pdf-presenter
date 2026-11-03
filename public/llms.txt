@@ -1,0 +1,16 @@
+# PDF Presenter Lite
+
+> Presenter view and a fullscreen output, in two tabs
+
+A presenter for PDFs only, in a browser tab with nothing to install: a presenter view with Now and Next and a strip of slide thumbnails you can click, and a clean fullscreen output in a pop-up window that you put on the second display. It's driven by the keyboard or a clicker, with screen blanking, a laser pointer, internal PDF links, sections and auto-advance.
+
+Your PDF is never uploaded: the page reads the file from your own disk, and the deck, the thumbnails and the output window all stay inside your browser. It doesn't do notes, media or deck editing, and OSC control, the watched folder and the desktop integrations need the desktop app, PDF Presenter.
+
+It runs in the browser at https://pdf-presenter-lite.stoatworks-labs.com/ and is free to use.
+
+## Links
+
+- [PDF Presenter Lite on Stoatworks Labs](https://stoatworks-labs.com/web-tools/pdf-presenter-lite/): what it is, with links to everything else
+- [Project page](https://stoatworks-labs.com/software/pdf-presenter/): the desktop app, PDF Presenter, and its downloads
+- [User guide](https://stoatworks-labs.com/software/pdf-presenter/guide/)
+- [Source code](https://github.com/stoatworks-labs/pdf-presenter)

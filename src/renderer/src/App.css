@@ -63,6 +63,14 @@
   flex-shrink: 0;
 }
 
+/* The hosted build's way back to its page on stoatworks-labs.com. */
+.titlebar-link {
+  color: inherit;
+  opacity: 0.7;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 .output-control {
   display: flex;
   align-items: center;

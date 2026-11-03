@@ -314,6 +314,16 @@ function App(): React.JSX.Element {
           />
           <SetDefaultPdfAppControl />
           <DiagnosticsPanel />
+          {window.api.toolPage ? (
+            <a
+              className="titlebar-link"
+              href={window.api.toolPage}
+              target="_blank"
+              rel="noreferrer"
+            >
+              About this tool
+            </a>
+          ) : null}
           {/* Opens the shared About dialog — see public/about.js, which delegates
               this attribute from the document, so nothing needs importing here.
               One dialog for both builds: the Electron renderer is a web page
