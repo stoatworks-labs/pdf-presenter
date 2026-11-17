@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, screen, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, nativeTheme, screen, shell } from 'electron'
 import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -90,6 +90,14 @@ function nameWindow(win: BrowserWindow, title: string): void {
   win.setTitle(title)
 }
 
+/** The shared theme's paper colour for the system's light or dark setting,
+ *  which the control window's page follows. The window shows it before the
+ *  first paint and wherever a resize outruns the renderer, so a fixed dark one
+ *  flashed in light mode. The Output window stays black: it is the audience's. */
+function paperColour(): string {
+  return nativeTheme.shouldUseDarkColors ? '#0b1621' : '#fafaf8'
+}
+
 function loadRenderer(win: BrowserWindow, mode?: string): void {
   const search = mode ? `mode=${mode}` : undefined
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -114,7 +122,7 @@ function createWindow(): void {
     show: false,
     title: CONTROL_WINDOW_TITLE,
     autoHideMenuBar: true,
-    backgroundColor: '#0f1013',
+    backgroundColor: paperColour(),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -238,6 +246,13 @@ app.whenReady().then(() => {
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
+  })
+
+  // The control page repaints itself when the system switches mode; its
+  // window follows. Read through mainWindow, like the listeners below, because
+  // a dock-icon reactivation replaces it.
+  nativeTheme.on('updated', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.setBackgroundColor(paperColour())
   })
 
   createWindow()
