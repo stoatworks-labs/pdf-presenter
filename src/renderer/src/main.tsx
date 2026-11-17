@@ -1,3 +1,5 @@
+// Vendored from stoatworks-backend/theme by scripts/sync-theme.sh: never edit here. First, so App.css layers over it.
+import './stoatworks-theme.css'
 import './App.css'
 
 import { StrictMode } from 'react'

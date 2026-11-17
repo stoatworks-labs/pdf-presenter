@@ -281,8 +281,13 @@ function App(): React.JSX.Element {
 
   return (
     <div className="app-shell">
-      <div className="app-titlebar">
-        <span className="app-titlebar-name">{fileName ?? window.api.productName}</span>
+      <div className="app-titlebar sw-bar">
+        <span className="sw-brand">
+          <span className="sw-mark" aria-hidden="true">
+            ▷
+          </span>
+          <span className="app-titlebar-name">{fileName ?? window.api.productName}</span>
+        </span>
         <div className="titlebar-actions">
           <OutputControl
             disabled={!doc}
@@ -324,15 +329,16 @@ function App(): React.JSX.Element {
               About this tool
             </a>
           ) : null}
+          <button className="transport-btn sw-primary" onClick={openPdf}>
+            {fileName ? 'Open Different PDF…' : 'Open PDF…'}
+          </button>
           {/* Opens the shared About dialog — see public/about.js, which delegates
               this attribute from the document, so nothing needs importing here.
               One dialog for both builds: the Electron renderer is a web page
-              too, and the main process sends target=_blank to the browser. */}
+              too, and the main process sends target=_blank to the browser.
+              Last, at the right-hand end of the navy bar, as on every tool. */}
           <button className="transport-btn" type="button" data-stoatworks-about>
             About
-          </button>
-          <button className="transport-btn" onClick={openPdf}>
-            {fileName ? 'Open Different PDF…' : 'Open PDF…'}
           </button>
         </div>
       </div>

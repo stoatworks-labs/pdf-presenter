@@ -7,6 +7,8 @@
   width: 100vw;
 }
 
+/* The navy bar (sw-bar). The tool's own control rules are unlayered and beat
+   the theme's bar styles, so the bar versions of them are written out here. */
 .app-titlebar {
   flex-shrink: 0;
   /* Not a fixed height: when the controls genuinely cannot fit side by side
@@ -22,10 +24,19 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--text-2);
-  background: var(--bg-1);
-  border-bottom: 1px solid var(--border);
+  color: var(--sw-navy-ink);
   -webkit-app-region: drag;
+}
+
+/* base.css resets every element's weight to normal, which would beat the
+   theme's bold brand. */
+.app-titlebar .sw-brand,
+.app-titlebar .sw-brand * {
+  font-weight: 700;
+}
+.app-titlebar .sw-brand {
+  font-size: 14px;
+  min-width: 0;
 }
 
 .app-titlebar button,
@@ -65,8 +76,7 @@
 
 /* The hosted build's way back to its page on stoatworks-labs.com. */
 .titlebar-link {
-  color: inherit;
-  opacity: 0.7;
+  color: var(--sw-navy-ink-2);
   font-size: 12px;
   white-space: nowrap;
 }
@@ -82,25 +92,25 @@
   align-items: center;
   gap: 4px;
   font-size: 12px;
-  color: var(--text-2);
+  color: var(--sw-navy-ink-2);
   white-space: nowrap;
 }
 
 .icon-btn {
   background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-2);
+  border: 1px solid var(--sw-navy-line);
+  color: var(--sw-navy-ink-2);
   width: 24px;
   height: 24px;
-  border-radius: 3px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   line-height: 1;
 }
 
 .icon-btn:hover {
-  color: var(--text-1);
-  border-color: var(--accent);
+  color: var(--sw-navy-ink);
+  border-color: var(--sw-accent-soft);
 }
 
 .osc-control {
@@ -115,7 +125,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: var(--text-2);
+  color: var(--sw-navy-ink-2);
 }
 
 .auto-advance-checkbox {
@@ -125,13 +135,32 @@
   white-space: nowrap;
 }
 
+/* Fields on the bar: a translucent ground, as the theme asks. */
+.auto-advance-interval,
+.transition-select,
+.transition-duration,
+.output-display-select {
+  background: var(--sw-navy-tint);
+  border: 1px solid var(--sw-navy-line);
+  color: var(--sw-navy-ink);
+  border-radius: 6px;
+}
+.auto-advance-interval:focus,
+.transition-select:focus,
+.transition-duration:focus,
+.output-display-select:focus {
+  outline: none;
+  border-color: var(--sw-accent-soft);
+}
+/* The open list of a select is drawn on the page's own ground. */
+.app-titlebar select option {
+  background: var(--sw-card);
+  color: var(--sw-ink);
+}
+
 .auto-advance-interval {
   width: 44px;
-  background: var(--bg-3);
-  border: 1px solid var(--border);
-  color: var(--text-1);
   padding: 3px 5px;
-  border-radius: 3px;
   font-size: 12px;
 }
 
@@ -144,7 +173,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: var(--text-2);
+  color: var(--sw-navy-ink-2);
 }
 
 .transition-label {
@@ -152,21 +181,13 @@
 }
 
 .transition-select {
-  background: var(--bg-3);
-  border: 1px solid var(--border);
-  color: var(--text-1);
   padding: 3px 5px;
-  border-radius: 3px;
   font-size: 12px;
 }
 
 .transition-duration {
   width: 58px;
-  background: var(--bg-3);
-  border: 1px solid var(--border);
-  color: var(--text-1);
   padding: 3px 5px;
-  border-radius: 3px;
   font-size: 12px;
 }
 
@@ -185,10 +206,13 @@
   gap: 8px;
   padding: 10px;
   width: 220px;
+  color: var(--text-1);
+  font-weight: normal;
+  letter-spacing: normal;
   background: var(--bg-2);
   border: 1px solid var(--border);
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-radius: var(--sw-radius-sm);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--sw-stage) 30%, transparent);
 }
 
 .osc-settings label {
@@ -200,11 +224,11 @@
 }
 
 .osc-settings input {
-  background: var(--bg-3);
+  background: var(--bg-1);
   border: 1px solid var(--border);
   color: var(--text-1);
   padding: 4px 6px;
-  border-radius: 3px;
+  border-radius: 6px;
   font-size: 12px;
 }
 
@@ -229,11 +253,7 @@
 }
 
 .output-display-select {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  color: var(--text-1);
   padding: 0 8px;
-  border-radius: 3px;
   font-size: 12px;
   max-width: 220px;
 }
@@ -242,18 +262,19 @@
   opacity: 0.6;
 }
 
+/* Buttons like mymac's: card ground, hairline, 8 px corners, the accent on
+   the border when hovered and as the fill when on. */
 .transport-btn {
-  background: var(--bg-3);
+  background: var(--bg-1);
   border: 1px solid var(--border);
   color: var(--text-1);
   padding: 6px 14px;
-  border-radius: 3px;
+  border-radius: var(--sw-radius-sm);
   cursor: pointer;
   font-size: 12px;
 }
 
 .transport-btn:hover:not(:disabled) {
-  background: var(--bg-2);
   border-color: var(--accent);
 }
 
@@ -265,7 +286,35 @@
 .transport-btn.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: #1a1006;
+  color: var(--sw-on-accent);
+  font-weight: 600;
+}
+
+/* On the bar: outlined light buttons; on and the main action fill soft blue. */
+.app-titlebar .transport-btn {
+  background: transparent;
+  border-color: var(--sw-navy-line);
+  color: var(--sw-navy-ink);
+  padding: 4px 12px;
+}
+.app-titlebar .transport-btn:hover:not(:disabled) {
+  border-color: var(--sw-accent-soft);
+}
+.app-titlebar .transport-btn.active,
+.app-titlebar .transport-btn.sw-primary {
+  background: var(--sw-accent-soft);
+  border-color: var(--sw-accent-soft);
+  color: var(--sw-navy);
+  font-weight: 600;
+}
+/* The OSC settings drop-down hangs off the bar but is a card on the page. */
+.app-titlebar .osc-settings .transport-btn {
+  background: var(--bg-1);
+  border-color: var(--border);
+  color: var(--text-1);
+}
+.app-titlebar .osc-settings .transport-btn:hover:not(:disabled) {
+  border-color: var(--accent);
 }
 
 .empty-state {
@@ -344,15 +393,17 @@
   color: var(--accent);
 }
 
+/* Slide previews are output surfaces: they stay dark in both modes. */
 .slide-slot-canvas {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 12px 12px;
-  background: #000;
+  background: var(--sw-stage);
+  color: var(--sw-stage-ink);
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -383,7 +434,7 @@
 }
 
 .slide-slot-empty {
-  color: var(--text-3);
+  color: color-mix(in srgb, var(--sw-stage-ink) 45%, transparent);
   font-family: var(--font-mono);
   font-size: 13px;
 }
@@ -446,9 +497,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: var(--sw-stage);
   border: 2px solid var(--border);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -477,6 +528,8 @@
   color: var(--accent);
 }
 
+/* The Output window is the projected show: true black in both modes, not the
+   stage colour, so its letterbox stays black on the screen. */
 .output-shell {
   display: flex;
   align-items: center;
@@ -484,6 +537,7 @@
   width: 100vw;
   height: 100vh;
   background: #000;
+  color: var(--sw-stage-ink);
 }
 
 .output-shell canvas {
@@ -536,7 +590,7 @@
 }
 
 .output-empty {
-  color: var(--text-3);
+  color: color-mix(in srgb, var(--sw-stage-ink) 45%, transparent);
   font-family: var(--font-mono);
   font-size: 16px;
 }
@@ -558,10 +612,10 @@
   flex-direction: column;
   gap: 3px;
   padding: 10px 18px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg-2);
-  color: var(--text-1);
+  border: 1px solid var(--sw-stage-line);
+  border-radius: var(--sw-radius-sm);
+  background: var(--sw-stage);
+  color: var(--sw-stage-ink);
   font-family: inherit;
   font-size: 13px;
   text-align: center;
@@ -569,7 +623,7 @@
 }
 
 .output-fullscreen-prompt span {
-  color: var(--text-3);
+  color: color-mix(in srgb, var(--sw-stage-ink) 60%, transparent);
   font-size: 11.5px;
 }
 
@@ -590,7 +644,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.55);
+  background: color-mix(in srgb, var(--sw-stage) 60%, transparent);
   -webkit-app-region: no-drag;
 }
 
@@ -603,8 +657,8 @@
   flex-direction: column;
   background: var(--bg-2);
   border: 1px solid var(--border);
-  border-radius: 5px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  border-radius: var(--sw-radius);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--sw-stage) 35%, transparent);
   outline: none;
 }
 
@@ -620,8 +674,8 @@
 
 .modal-title {
   margin: 0;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--text-1);
 }
@@ -632,7 +686,7 @@
   color: var(--text-2);
   width: 24px;
   height: 24px;
-  border-radius: 3px;
+  border-radius: 6px;
   font-size: 13px;
   line-height: 1;
   cursor: pointer;
